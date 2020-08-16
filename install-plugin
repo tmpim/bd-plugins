@@ -1,0 +1,190 @@
+#!/usr/bin/env bash
+
+bdConfigDir="$HOME/.config/BetterDiscord/plugins/"
+
+red=`tput setaf 1`
+green=`tput setaf 2`
+orange=`tput setaf 3`
+bold=`tput bold`
+reset=`tput sgr0`
+
+# First build all the plugins
+if [ ! -d "./build" ]
+then
+    if command -v yarn &> /dev/null
+    then
+        yarn
+        yarn build
+    else
+        npm install
+        npm run-script build
+    fi
+fi
+
+# Ensure that BetterDiscord is installed
+if [ ! -d $bdConfigDir ]
+then
+    echo "${bold}${red}ERROR: ${reset}BetterDiscord does not seem to be installed."
+    echo "Please install BetterDiscord, or make sure that ${bold}$bdConfigDir${reset} exists."
+    exit 1
+fi
+
+
+function printUsage {
+    echo
+    echo "${orange}USAGE:${reset}"
+    echo -e "\t$0 [FLAGS] <PLUGINS...>"
+    echo
+    echo "${orange}FLAGS:${reset}"
+    echo -e "\t${green}-h${reset}, ${green}--help${reset}\tPrints help information"
+    echo -e "\t${green}-l${reset}, ${green}--list${reset}\tLists available plugins"
+    echo -e "\t${green}-a${reset}, ${green}--all${reset}\tInstalls all available plugins"
+    echo -e "\t${green}-r${reset}, ${green}--remove${reset}\tUninstalls plugins instead of installing"
+}
+
+function printHelp {
+    echo "${green}Tmpim BD-Plugin Installer${reset}"
+    echo "Installer script for the tmpim collection of BetterDiscord plugins."
+    printUsage
+}
+
+function printNoPlugins {
+    echo "${red}${bold}ERROR:${reset} No plugins specified for action."
+    echo "Try ${bold}$0 --help${reset} for more information"
+}
+
+function getPluginInfo {
+    filename=$1
+    pluginName=$(cat $filename | grep @name | head -n1 | awk '{print $3}')
+    pluginDesc=$(cat $filename | grep @description | head -n1 | awk '{for (i=3; i<=NF; i++) printf("%s ", $i)}')
+}
+
+function listPlugins {
+    echo "${green}Plugins:${reset}"
+
+    plugins=$(find build/ -name "*plugin*")
+    while read -r line; do
+        getPluginInfo $line
+        echo "$pluginName - $pluginDesc"
+    done <<< "$plugins"
+}
+
+function findPlugin {
+    pluginName=$1
+
+    if command -v rg &> /dev/null
+    then
+        filename=$(rg "@name $pluginName" build/)
+    else
+        filename=$(grep -rnw build/ -e "@name $pluginName")
+    fi
+
+    if [ -z "$filename" ]
+    then
+        echo "${bold}${red}ERROR:${reset} Cannot find plugin ${bold}$pluginName${reset}."
+        installFailed=1
+        return
+    fi
+
+    filename=$(echo "$filename" | sed 's/:.*//')
+}
+
+removePlugins=0
+function installPlugin {
+    getPluginInfo $1
+
+    if [ $removePlugins -eq 0 ]
+    then
+        echo -n "${orange}Installing Plugin: ${reset}$pluginName... "
+        cp $1 $bdConfigDir 2> /dev/null
+    else
+        echo -n "${red}Removing Plugin: ${reset}$pluginName... "
+        rm $bdConfigDir/$(basename $1) 2> /dev/null
+    fi
+
+    if [ $? -eq 0 ]
+    then
+        echo "${bold}${green}OK${reset}"
+    else
+        echo "${bold}${red}ERROR${reset}"
+        installFailed=1
+    fi
+}
+
+if [ -z $1 ]
+then
+    printNoPlugins
+    echo
+    exit 1
+fi
+
+options=$(getopt -o hlar --long help --long list --long all --long remove -- "$@")
+[ $? -eq 0 ] || {
+    printUsage
+    exit 1
+}
+
+installFailed=0
+
+eval set -- "$options"
+while true; do
+    case "$1" in
+    -h | --help)
+        printHelp
+        exit 0
+        ;;
+
+    -l | --list)
+        listPlugins
+        exit 0
+        ;;
+
+    -a | --all)
+        plugins=$(find build/ -name "*plugin*")
+        while read -r line; do
+            installPlugin $line
+        done <<< "$plugins"
+
+        if [ $installFailed -ne 0 ]
+        then
+            echo "Some plugins failed to install/remove."
+        fi
+
+        echo
+        exit $installFailed
+        ;;
+
+    -r | --remove)
+        removePlugins=1
+        echo "Install mode set to ${red}REMOVE${reset}."
+        echo
+        ;;
+
+    --)
+        shift
+        break
+        ;;
+    esac
+    shift
+done
+
+if [ -z $1 ]
+then
+    printNoPlugins
+fi
+
+for plugin in "$@"
+do
+    findPlugin "$plugin"
+    if [ ! -z "$filename" ]
+    then
+        installPlugin "$filename"
+    fi
+done
+
+if [ $installFailed -ne 0 ]
+then
+    echo "Some plugins failed to install."
+fi
+
+echo # Trailing newline

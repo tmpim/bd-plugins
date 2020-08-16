@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "CommonJS",
+        "target": "ES6",
+
+        "esModuleInterop": true,
+        "noImplicitUseStrict": true,
+        "removeComments": false,
+
+        "noImplicitAny": true,
+
+        "rootDir": "src",
+        "outDir": "build"
+    }
+}
