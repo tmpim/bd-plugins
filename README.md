@@ -14,4 +14,4 @@ $>
 ## Plugins
 ---
 ### BadgeClasses
-#### Adds CSS classes to the channel badges when you have pings
+> Adds CSS classes to the channel badges when you have pings
