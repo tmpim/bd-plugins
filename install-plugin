@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+pluginDir="./build"
 bdConfigDir="$HOME/.config/BetterDiscord/plugins/"
 
 red=`tput setaf 1`
@@ -21,7 +22,7 @@ function buildPlugins {
     fi
 }
 
-if [ ! -d "./build" ]
+if [ ! -d $pluginDir ]
 then
     buildPlugins
 fi
@@ -61,14 +62,29 @@ function printNoPlugins {
 
 function getPluginInfo {
     filename=$1
-    pluginName=$(cat $filename | grep @name | head -n1 | awk '{print $3}')
-    pluginDesc=$(cat $filename | grep @description | head -n1 | awk '{for (i=3; i<=NF; i++) printf("%s ", $i)}')
+    pluginName=$(cat $filename | grep '* @name' | head -n1 | awk '{print $3}')
+    pluginDesc=$(cat $filename | grep '* @description' | head -n1 | awk '{for (i=3; i<=NF; i++) printf("%s ", $i)}')
+    if [ -z "$pluginName" ]
+    then
+        # Maybe it uses the META comment syntax
+        meta=$(cat $filename | grep '//META' | head -n1 | sed 's;//META;;' | sed 's;*//\s*$;;')
+        pluginName=$(echo "$meta" | jq '.name')
+        pluginDesc=$(echo "$meta" | jq '.description')
+
+        if [ "$pluginDesc" == "null" ]
+        then
+            pluginDesc=$(cat $filename | grep -E 'getDescription\s*\(\)' | head -n1 | grep -Eo '".+"')
+        fi
+
+        pluginName="${pluginName:1:-1}"
+        pluginDesc="${pluginDesc:1:-1}"
+    fi
 }
 
 function listPlugins {
     echo "${bold}${green}Plugins:${reset}"
 
-    plugins=$(find build/ -name "*plugin*")
+    plugins=$(find $pluginDir -name "*plugin*")
     while read -r line; do
         getPluginInfo $line
         echo "${bold}$pluginName${reset} - $pluginDesc"
@@ -80,9 +96,9 @@ function findPlugin {
 
     if command -v rg &> /dev/null
     then
-        filename=$(rg "@name $pluginName" build/)
+        filename=$(rg "class $pluginName" $pluginDir)
     else
-        filename=$(grep -rnw build/ -e "@name $pluginName")
+        filename=$(grep -rnw $pluginDir -e "class $pluginName")
     fi
 
     if [ -z "$filename" ]
@@ -146,7 +162,7 @@ while true; do
         ;;
 
     -a | --all)
-        plugins=$(find build/ -name "*plugin*")
+        plugins=$(find $pluginDir -name "*plugin*")
         while read -r line; do
             installPlugin $line
         done <<< "$plugins"
@@ -167,7 +183,7 @@ while true; do
         ;;
 
     -f | --force)
-        rm -rf build/
+        rm -rf $pluginDir
         buildPlugins
         rebuilt=1
         ;;
