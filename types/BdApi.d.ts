@@ -239,12 +239,12 @@ export namespace BdApiModule {
     /**
      * Searches for an internal Discord webpack module based on `filter`.
      */
-    function findModule(filter: () => void): any;
+    function findModule(filter: (x: any) => boolean): any;
 
     /**
      * Searches for multiple internal Discord webpack module based on `filter`. It's the same as [`findModule`](#findmodulefilter) but will return all matches
      */
-    function findAllModules(filter: () => void): any[];
+    function findAllModules(filter: (x: any) => boolean): any[];
 
     /**
      * Searches for an internal Discord webpack module that has every property passed.

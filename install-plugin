@@ -9,8 +9,8 @@ bold=`tput bold`
 reset=`tput sgr0`
 
 # First build all the plugins
-if [ ! -d "./build" ]
-then
+function buildPlugins {
+    echo "${bold}${orange}Building plugins...${reset}"
     if command -v yarn &> /dev/null
     then
         yarn
@@ -19,6 +19,11 @@ then
         npm install
         npm run-script build
     fi
+}
+
+if [ ! -d "./build" ]
+then
+    buildPlugins
 fi
 
 # Ensure that BetterDiscord is installed
@@ -39,6 +44,7 @@ function printUsage {
     echo -e "\t${green}-h${reset}, ${green}--help${reset}\tPrints help information"
     echo -e "\t${green}-l${reset}, ${green}--list${reset}\tLists available plugins"
     echo -e "\t${green}-a${reset}, ${green}--all${reset}\tInstalls all available plugins"
+    echo -e "\t${green}-f${reset}, ${green}--force${reset}\tForce recompilation of plugins"
     echo -e "\t${green}-r${reset}, ${green}--remove${reset}\tUninstalls plugins instead of installing"
 }
 
@@ -60,12 +66,12 @@ function getPluginInfo {
 }
 
 function listPlugins {
-    echo "${green}Plugins:${reset}"
+    echo "${bold}${green}Plugins:${reset}"
 
     plugins=$(find build/ -name "*plugin*")
     while read -r line; do
         getPluginInfo $line
-        echo "$pluginName - $pluginDesc"
+        echo "${bold}$pluginName${reset} - $pluginDesc"
     done <<< "$plugins"
 }
 
@@ -118,7 +124,7 @@ then
     exit 1
 fi
 
-options=$(getopt -o hlar --long help --long list --long all --long remove -- "$@")
+options=$(getopt -o hlarf --long help --long list --long all --long remove --long force -- "$@")
 [ $? -eq 0 ] || {
     printUsage
     exit 1
@@ -160,6 +166,12 @@ while true; do
         echo
         ;;
 
+    -f | --force)
+        rm -rf build/
+        buildPlugins
+        rebuilt=1
+        ;;
+
     --)
         shift
         break
@@ -168,7 +180,7 @@ while true; do
     shift
 done
 
-if [ -z $1 ]
+if [ -z $1 ] && [ -z $rebuilt ]
 then
     printNoPlugins
 fi

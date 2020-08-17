@@ -1,16 +1,16 @@
-import { BdPlugin } from "../types/BdPlugin";
-
 /**
  * @name BadgeClasses
  * @authorId 333530784495304705
- * @version 0.0.1
- * @description Adds CSS classes to the channel badges when you have pings
+ * @description Add CSS classes to the channel badges when you have pings.
  */
+
+import { BdPlugin } from "../types/BdPlugin";
+
 class BadgeClasses implements BdPlugin {
     static cssID = "MentionDotCSS";
 
     getName(): string { return "BadgeClasses"; }
-    getDescription(): string { return "Add CSS classes to the channel badges when you have pings"; }
+    getDescription(): string { return "Add CSS classes to the channel badges when you have pings."; }
     getVersion(): string { return "0.0.1"; }
     getAuthor(): string { return "Emma"; }
 
