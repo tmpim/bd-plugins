@@ -5,7 +5,7 @@
 
 import { BdPlugin } from "../types/BdPlugin";
 import { CancelPatch } from "../types/BdApi";
-import { BDFPlugin, ContextMenuEvent, ReactComponent } from "../types/BDFBD";
+import { BDFPlugin, ContextMenuEvent } from "../types/BDFBD";
 
 class NoDrag implements BdPlugin, BDFPlugin {
     name: string;
@@ -52,7 +52,7 @@ class NoDrag implements BdPlugin, BDFPlugin {
 
         settingsItems.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.FormComponents.FormText, {
             tag: BDFDB.LibraryComponents.FormComponents.FormTitleTags.H4,
-            className: `${BDFDB.disCN.marginbottom8}`,
+            className: BDFDB.disCN.marginbottom8,
             align: "right",
             children: "Setting the delay to 0 turns off auto-reenable."
         }));
@@ -127,7 +127,16 @@ class NoDrag implements BdPlugin, BDFPlugin {
     }
 
     onGuildContextMenu(e: ContextMenuEvent) {
-        if (e.type == "GuildChannelListContextMenu") {
+        if (e.type === "GuildChannelListContextMenu") {
+            let [children] = BDFDB.ContextMenuUtils.findItem(e.returnvalue, {id: "create", group: true});
+            this.injectItem(e.instance, children, -1);
+        }
+    }
+
+    onChannelContextMenu(e: any) {
+        if (e.type === "ChannelListTextChannelContextMenu" ||
+            e.type === "ChannelListVoiceChannelContextMenu") {
+            
             let [children] = BDFDB.ContextMenuUtils.findItem(e.returnvalue, {id: "create", group: true});
             this.injectItem(e.instance, children, -1);
         }

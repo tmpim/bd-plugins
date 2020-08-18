@@ -21,7 +21,7 @@ declare global {
 }
 
 export interface ContextMenuEvent {
-    instance: any;
+    instance: {props: {guild: any}};
     methodname: string;
     returnvalue: any;
     type: string;
