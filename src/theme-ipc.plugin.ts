@@ -5,6 +5,7 @@
 
 import { BdPlugin } from "../types/BdPlugin";
 import { createServer, Server, Socket } from "net";
+import { unlinkSync } from "fs";
 
 interface SocketError extends Error {
     code: string;
@@ -64,6 +65,11 @@ class ThemeIPC implements BdPlugin {
         switch (error.code) {
             case "EACCES":
                 return BdApi.showToast("Unable to create IPC Socket, ThemeIPC will not work.", { timeout: 5000, type: "error" });
+
+            case "EADDRINUSE":
+                unlinkSync("/tmp/discord_theme");
+                this.ipcServer.listen("/tmp/discord_theme");
+                break;
 
             default:
                 return BdApi.showToast("An error occurred in ThemeIPC server, it may or may not still work.", { timeout: 5000, type: "error" });
