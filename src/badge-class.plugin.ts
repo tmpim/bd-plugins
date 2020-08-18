@@ -40,12 +40,11 @@ class BadgeClasses implements BdPlugin {
     }
 
     patchRender() {
-        const cUtils = this.ChannelUtils;
         this.cancelRenderPatch = BdApi.monkeyPatch(this.ChannelItem.prototype,
-            "renderUnread", { after: function postRender(data) {
+            "renderUnread", { after: (data) => {
                 if (data.returnValue) {
                     const channel = (data.thisObject as any).props.channel;
-                    if (cUtils.getMentionCount(channel.id) > 0) {
+                    if (this.ChannelUtils.getMentionCount(channel.id) > 0) {
                         data.returnValue.props.className += " " + "da-unread-mention";
                     }
                 }
