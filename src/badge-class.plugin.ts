@@ -4,9 +4,17 @@
  */
 
 import { BdPlugin } from "../types/BdPlugin";
+import { CancelPatch } from "../types/BdApi";
 
 class BadgeClasses implements BdPlugin {
     static cssID = "MentionDotCSS";
+
+    ChannelItem: any;
+    ChannelUtils: {
+        getMentionCount(channelId: string): number;
+    }
+
+    cancelRenderPatch: CancelPatch;
 
     getName(): string { return "BadgeClasses"; }
     getDescription(): string { return "Adds CSS classes to the channel badges when you have pings."; }
@@ -14,26 +22,34 @@ class BadgeClasses implements BdPlugin {
     getAuthor(): string { return "Emma"; }
 
     start(): void {
+        this.ChannelUtils = BdApi.findModuleByProps("getUnreadCount", "getMentionCount");
+        this.ChannelItem = BdApi.findModuleByDisplayName("ChannelItem");
+
         BdApi.injectCSS(BadgeClasses.cssID, `
             .da-containerDefault .da-wrapper .da-unread.da-unread-mention {
                 background-color: #f04747;
             }
         `);
+
+        this.patchRender();
     }
 
     stop(): void {
         BdApi.clearCSS(BadgeClasses.cssID);
+        this.cancelRenderPatch();
     }
 
-    observer?(changes: MutationRecord): void {
-        const badge = changes.addedNodes?.[0];
-        if (badge instanceof HTMLElement) {
-            if (badge.classList.contains("da-mentionsBadge")) {
-                badge.parentElement.parentElement.parentElement
-                    .querySelector(".da-unread")
-                    ?.classList.add("da-unread-mention")
-            }
-        }
+    patchRender() {
+        const cUtils = this.ChannelUtils;
+        this.cancelRenderPatch = BdApi.monkeyPatch(this.ChannelItem.prototype,
+            "renderUnread", { after: function postRender(data) {
+                if (data.returnValue) {
+                    const channel = (data.thisObject as any).props.channel;
+                    if (cUtils.getMentionCount(channel.id) > 0) {
+                        data.returnValue.props.className += " " + "da-unread-mention";
+                    }
+                }
+            } });
     }
 }
 
