@@ -151,7 +151,6 @@ class NoDrag implements BdPlugin, BDFPlugin {
     }
 
     handleToggleEnabled(allowDrags: boolean): void {
-        console.log("hello", allowDrags);
         this.shouldBlockDrags = !allowDrags;
 
         clearTimeout(this.enableTimeout);
