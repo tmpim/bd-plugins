@@ -78,6 +78,12 @@ function getPluginInfo {
 
         pluginName="${pluginName:1:-1}"
         pluginDesc="${pluginDesc:1:-1}"
+    else
+        if [ -z "$pluginDesc" ]
+        then
+            pluginDesc=$(cat $filename | grep -E 'getDescription\s*\(\)' | head -n1 | grep -Eo '".+"')
+            pluginDesc="${pluginDesc:1:-1}"
+        fi
     fi
 }
 

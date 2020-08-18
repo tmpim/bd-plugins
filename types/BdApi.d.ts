@@ -242,6 +242,11 @@ export namespace BdApiModule {
     function findModule(filter: (x: any) => boolean): any;
 
     /**
+     * Searches for an internal Discord webpack module based on `displayName`
+     */
+    function findModuleByDisplayName(displayName: string): any;
+
+    /**
      * Searches for multiple internal Discord webpack module based on `filter`. It's the same as [`findModule`](#findmodulefilter) but will return all matches
      */
     function findAllModules(filter: (x: any) => boolean): any[];

@@ -1,7 +1,6 @@
 /**
  * @name ThemeIPC
  * @authorId 333530784495304705
- * @description Hosts a UNIX IPC socket and listens for theme change commands.
  */
 
 import { BdPlugin } from "../types/BdPlugin";
