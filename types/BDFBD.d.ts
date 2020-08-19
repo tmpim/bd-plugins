@@ -1,4 +1,5 @@
 import { DiscordCSSClass } from "./dc-classes";
+import { CancelPatch, PatchFunction } from "./BdApi";
 
 // TODO: Very not complete
 
@@ -125,6 +126,10 @@ export namespace BDFDBModule {
 
     const ModuleUtils: {
         forceAllUpdates(plugin: any): void;
+
+        patch(plugin: any, module: any, methodName: string, patchMethod: {
+            before?: PatchFunction, after?: PatchFunction, instead?: PatchFunction
+        }, config?: { force: boolean }): CancelPatch;
     }
 
     const ContextMenuUtils: {

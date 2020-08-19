@@ -31,3 +31,8 @@ Disables channel dragging by default.
 Right clicking on a guild's sidebar grants an option to
 temporarily re-enable channel reordering. The delay before
 the ability is re-enabled is configurable in settings.
+---
+### AddQuote
+> Adds an 'Add Quote' button to message action bar.
+
+This plugin only works in the `tmpim` guild.
