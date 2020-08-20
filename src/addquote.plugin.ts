@@ -63,11 +63,11 @@ class AddQuote implements BdPlugin {
         this.ButtonClasses = BdApi.findModuleByProps("container", "icon", "isHeader");
 
         // TODO: Find a better way to reference this module
-        this.QuoteIcon = BdApi.findModule(x => typeof x === "function" 
+        this.QuoteIcon = BdApi.findModule(x => typeof x === "function"
             && x.toString().includes("M19.8401 5.39392C20.1229 4.73405"));
 
         if (!this.QuoteIcon) {
-            BdApi.showToast("AddQuote was unable to locate the Quote icon, please bug @Emma to fix this.", 
+            BdApi.showToast("AddQuote was unable to locate the Quote icon, please bug @Emma to fix this.",
                 { type: "error", timeout: 10000 });
 
             return;
@@ -106,7 +106,7 @@ class AddQuote implements BdPlugin {
         this.TextBoxModule.default = class ProxyTextBox extends nTB {
             constructor(props: any) {
                 super(props);
-                
+
                 this.originalHandleTabOrEnter = this.handleTabOrEnter;
                 this.handleTabOrEnter = this.handleTabOrEnterOverride.bind(this);
             }
@@ -122,7 +122,7 @@ class AddQuote implements BdPlugin {
                     const channel = this.props.channel.id;
                     if (self.selectedMessages[channel]) {
                         self.selectedMessages[channel] = null;
-                        self.clearClasses();        
+                        self.clearClasses();
                     }
                 }
 
@@ -154,7 +154,7 @@ class AddQuote implements BdPlugin {
 
     renderIconButton(props: {
         label: string,
-        icon: React.ComponentClass<{className: string}> 
+        icon: React.ComponentClass<{className: string}>
             | React.FunctionComponent<{className: string}>,
         channel: any,
         message: any,
@@ -339,7 +339,7 @@ class AddQuote implements BdPlugin {
     proccessAddQuote(channel: Discord.Channel, message: Discord.Message) {
         if (channel.guild_id !== "591488795040546818") {
             return BdApi.showToast(
-                "Can't use addquote in a non tmpim guild", 
+                "Can't use addquote in a non tmpim guild",
                 { type: "error" }
             );
         }
@@ -383,7 +383,7 @@ class AddQuote implements BdPlugin {
                 return BdApi.React.createElement<any>(function(props) {
                     const renderValue = MenuActions(props);
                     const children: any[] = renderValue.props.children;
-                    children.splice(children.length - 2, 0, 
+                    children.splice(children.length - 2, 0,
                         self.renderIconButton({
                             channel: props.channel,
                             message: props.message,

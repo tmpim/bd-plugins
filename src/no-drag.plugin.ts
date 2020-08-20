@@ -35,7 +35,7 @@ class NoDrag implements BdPlugin, BDFPlugin {
     getSettingsPanel() {
         if (!window.BDFDB || typeof BDFDB != "object" || !BDFDB.loaded || !this.started) return;
         let settingsPanel, settingsItems = [];
-        
+
         settingsItems.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.SettingsSaveItem, {
             type: "TextInput",
             className: BDFDB.disCN.marginbottom8,
@@ -56,7 +56,7 @@ class NoDrag implements BdPlugin, BDFPlugin {
             align: "right",
             children: "Setting the delay to 0 turns off auto-reenable."
         }));
-        
+
         return settingsPanel = BDFDB.PluginUtils.createSettingsPanel(this, settingsItems);
     }
 
@@ -121,7 +121,7 @@ class NoDrag implements BdPlugin, BDFPlugin {
     onSettingsClosed() {
         if (this.SettingsUpdated) {
             delete this.SettingsUpdated;
-            
+
             this.forceUpdateAll();
         }
     }
@@ -136,7 +136,7 @@ class NoDrag implements BdPlugin, BDFPlugin {
     onChannelContextMenu(e: any) {
         if (e.type === "ChannelListTextChannelContextMenu" ||
             e.type === "ChannelListVoiceChannelContextMenu") {
-            
+
             let [children] = BDFDB.ContextMenuUtils.findItem(e.returnvalue, {id: "create", group: true});
             this.injectItem(e.instance, children, -1);
         }
@@ -190,7 +190,7 @@ class NoDrag implements BdPlugin, BDFPlugin {
         // The BDFDB MenuCheckbox doesn't passthrough the 'disabled' prop, so we have to extend it ourselves
         const nativeCheckbox = BdApi.findModuleByDisplayName("MenuCheckboxItem");
         this.MenuItemCheckbox = class MenuItemCheckbox extends BdApi.React.Component {
-            props: { 
+            props: {
                 disabled: boolean;
                 action: (checked: boolean, instance: MenuItemCheckbox) => void;
 
@@ -205,7 +205,7 @@ class NoDrag implements BdPlugin, BDFPlugin {
                     if (typeof this.props.action == "function") this.props.action(this.props.state.checked, this);
                 }
 
-                BDFDB.ReactUtils.forceUpdate(this);    
+                BDFDB.ReactUtils.forceUpdate(this);
             }
 
             render() {

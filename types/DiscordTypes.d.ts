@@ -77,9 +77,9 @@ export namespace Discord {
         lastPinTimestamp?: null;
     }
 
-      export type PermissionOverwrites = 
+      export type PermissionOverwrites =
         {[p: string]: {id: string, type: number, allow: any, deny: any}};
 
-      
+
       export interface Nicks {}
 }

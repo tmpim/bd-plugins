@@ -35,7 +35,7 @@ class ThemeIPC implements BdPlugin {
 
 
         this.ipcServer = createServer(this.onSocketConnection.bind(this));
-        if (this.ipcServer) {            
+        if (this.ipcServer) {
             this.ipcServer.on("error", this.onServerError.bind(this));
             this.ipcServer.listen("/tmp/discord_theme");
         }

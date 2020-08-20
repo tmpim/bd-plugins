@@ -134,7 +134,7 @@ export namespace BDFDBModule {
 
     const ContextMenuUtils: {
         findItem(
-            returnvalue: any, 
+            returnvalue: any,
             config: RequireOnlyOne<{
                 id: string,
                 label: string,
