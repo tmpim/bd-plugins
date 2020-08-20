@@ -93,6 +93,7 @@ export interface PatchData {
 export interface MonkeyPatchOptions {
     once?: boolean;
     silent?: boolean;
+    force?: boolean;
     displayName?: string;
     before?: PatchFunction;
     after?: PatchFunction;

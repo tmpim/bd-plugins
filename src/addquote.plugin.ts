@@ -9,6 +9,8 @@ import { Discord } from "../types/DiscordTypes";
 
 class AddQuote implements BdPlugin {
     cancelRenderPatch: CancelPatch;
+    cancelComparePatch: CancelPatch;
+    stopped: boolean = true;
 
     TextBoxModule: any;
     nativeTextBox: React.ComponentClass;
@@ -58,6 +60,8 @@ class AddQuote implements BdPlugin {
     getAuthor(): string { return "Emma"; }
 
     start(): void {
+        this.stopped = false;
+
         this.Tooltip = BdApi.findModuleByDisplayName("Tooltip");
         this.ButtonComponents = BdApi.findModuleByProps("Separator", "Button")
         this.ButtonClasses = BdApi.findModuleByProps("container", "icon", "isHeader");
@@ -82,14 +86,75 @@ class AddQuote implements BdPlugin {
     }
 
     stop(): void {
+        this.stopped = true;
+
         this.TextBoxModule.default = this.nativeTextBox;
         this.cancelRenderPatch();
+        this.cancelComparePatch();
         this.cleanupCSS();
     }
 
+    renderCache: Set<string> = new Set();
     currentTextBox: any;
     performHookPatch() {
         const PanelModule = BdApi.findModuleByProps("useConnectedUtilitiesProps");
+
+        // The compare function likely doesnt exist
+        if (!PanelModule.default.compare) {
+            function obj_is(x: any, y: any) {
+                return (
+                    (x === y && (x !== 0 || 1 / x === 1 / y)) || (x !== x && y !== y)
+                );
+            }
+
+            const hasOwnProperty = Object.prototype.hasOwnProperty;
+
+            PanelModule.default.compare = function (objA: any, objB: any) {
+                if (obj_is(objA, objB)) {
+                    return true;
+                }
+
+                if (
+                    typeof objA !== 'object' ||
+                    objA === null ||
+                    typeof objB !== 'object' ||
+                    objB === null
+                ) {
+                    return false;
+                }
+
+                const keysA = Object.keys(objA);
+                const keysB = Object.keys(objB);
+
+                if (keysA.length !== keysB.length) {
+                    return false;
+                }
+
+                // Test for A's keys different from B.
+                for (let i = 0; i < keysA.length; i++) {
+                    if (
+                        !hasOwnProperty.call(objB, keysA[i]) ||
+                        !obj_is(objA[keysA[i]], objB[keysA[i]])
+                    ) {
+                        return false;
+                    }
+                }
+
+                return true;
+            };
+        }
+
+        this.cancelComparePatch = BdApi.monkeyPatch(PanelModule.default, "compare", {
+            after: (data) => {
+                const r = data.returnValue ?? true;
+                if (r) {
+                    const message = data.methodArguments[1].message;
+                    data.returnValue = this.renderCache.has(message.id);
+                    this.renderCache.add(message.id);
+                }
+            },
+        });
+
         this.cancelRenderPatch = BdApi.monkeyPatch(PanelModule.default, "type", {
             after: (data) => {
                 const MenuActionsInstance = data.returnValue.props.children.props.children[1];
@@ -173,6 +238,11 @@ class AddQuote implements BdPlugin {
             , key = props.key
             , disabled = props.disabled
             , passthroughProps = this.filterProperties(props, ["label", "icon", "channel", "message", "onClick", "key", "disabled"]);
+
+        if (this.stopped) {
+            return null;
+        }
+
         return BdApi.React.createElement(this.Tooltip, {
             text: label,
             hideOnClick: true,
