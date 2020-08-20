@@ -104,16 +104,10 @@ class AddQuote implements BdPlugin {
         const self = this;
         const nTB = this.nativeTextBox as any;
         this.TextBoxModule.default = class ProxyTextBox extends nTB {
-            // tbInst: any;
-            originalMethod: any;
-
             constructor(props: any) {
-                // debugger;
                 super(props);
+                
                 this.originalHandleTabOrEnter = this.handleTabOrEnter;
-                // this.handleTabOrEnter = function(oldThis) {
-                //     this.handleInsertTextOverride.bind(this);
-                // }
                 this.handleTabOrEnter = this.handleTabOrEnterOverride.bind(this);
             }
 
