@@ -1,3 +1,5 @@
+import * as logger from "../shared/logger"
+
 let shouldConnect = false;
 let idCounter = 0;
 
@@ -12,24 +14,24 @@ export function connect() {
         listeners.forEach(l => l.func(e.data));
     };
 
-    ws.onclose = (e) => {
+    ws.onclose = () => {
         ws = void ws;
         if (shouldConnect) {
-            console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+            logger.log("Socket is closed. Reconnect will be attempted in 1 second.", "spyglass");
             setTimeout(connect, 1000);
         } else {
-            console.log("Socket successfully shutdown.");
+            logger.log("Socket successfully shutdown.", "spyglass");
         }
     };
 
     ws.onerror = (err) => {
-        console.error('Socket encountered error: ', err, 'Closing socket');
+        logger.error("Socket encountered error: " + err + "Closing socket", "spyglass");
         ws.close();
     };
 }
 
 export function close() {
-    console.log("Shutting down spyglass socket.");
+    logger.log("Shutting down spyglass socket.");
     shouldConnect = false;
     ws.close();
 }
