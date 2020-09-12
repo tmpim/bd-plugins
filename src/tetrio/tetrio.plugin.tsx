@@ -12,6 +12,7 @@ import { createSettingsPanel } from "../shared/settings/settingspanel";
 import * as spyglass from "./spyglass";
 import styles from "./styles.scss";
 import tetriologo from "./tetriologo";
+import { useSettings } from "../shared/settings/hook";
 const { useState, useEffect } = React;
 
 class Tetrio implements BdPlugin {
@@ -74,20 +75,16 @@ class Tetrio implements BdPlugin {
     }
 
     SettingsPane(props: {plugin: Tetrio}) {
-        const [sound, setSound] = useState(props.plugin.settings.sound);
-        const [soundPath, setSoundPath] = useState(props.plugin.settings.soundpath);
-        const [ignoreFirstTime, setFirstTime] = useState(props.plugin.settings.ignoreFirstTime);
-        const [desktop, setDesktop] = useState(props.plugin.settings.launchDesktop);
+        const settings = useSettings(props.plugin);
 
         return (<>
             <PanelFormItem
                 label="Notification Sound"
                 type="Select"
                 options={props.plugin.soundOptions}
-                value={sound}
+                value={settings.sound}
                 onChange={(data) => {
-                    setSound(data.value); // Update UI
-                    props.plugin.settings.sound = data.value; // Persist
+                    settings.sound = data.value; // Persist
 
                     // Give the user a sample
                     props.plugin.reloadNotificationSound();
@@ -100,17 +97,16 @@ class Tetrio implements BdPlugin {
             <PanelFormItem
                 label="Path to Sound"
                 type="File"
-                value={soundPath}
+                value={settings.soundpath}
                 filter={[{name: "Sound", extensions: ["mp3", "ogg", "m4a", "flac"]}]}
                 onChange={(newPath) => {
-                    setSoundPath(newPath); // Update UI
-                    props.plugin.settings.soundpath = newPath; // Persist
+                    settings.soundpath = newPath;
 
                     // Give the user a sample
                     props.plugin.reloadNotificationSound();
                     props.plugin.playNotification();
                 }}
-                disabled={sound !== "custom"}/>
+                disabled={settings.sound !== "custom"}/>
 
             <PanelFormItem
                 label="Volume"
@@ -133,20 +129,18 @@ class Tetrio implements BdPlugin {
             <PanelFormItem
                 label="Trigger on load"
                 type="Switch"
-                value={!ignoreFirstTime}
+                value={!settings.ignoreFirstTime}
                 onChange={() => {
-                    setFirstTime(!ignoreFirstTime); // Update UI
-                    props.plugin.settings.ignoreFirstTime = !ignoreFirstTime; // Persist
+                    settings.ignoreFirstTime = !settings.ignoreFirstTime;
                 }}
             />
 
             <PanelFormItem
                 label="Launch with tetrio-desktop"
                 type="Switch"
-                value={desktop}
+                value={settings.launchDesktop}
                 onChange={() => {
-                    setDesktop(!desktop); // Update UI
-                    props.plugin.settings.launchDesktop = !desktop; // Persist
+                    settings.launchDesktop = !settings.launchDesktop;
                 }}
             />
         </>);
