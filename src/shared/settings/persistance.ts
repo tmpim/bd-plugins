@@ -2,11 +2,12 @@ import { TypedProxy } from "../util/typedproxy";
 import { BdPlugin } from "../../../types/BdPlugin";
 
 export function defineSettings<T extends Record<string, any>>(plugin: BdPlugin, defaults: T): T {
+    console.log(defaults);
     const settings = Object.assign({}, defaults);
     for (const setting in defaults) {
         const val = BdApi.loadData(plugin.getName(), setting);
 
-        if (val) {
+        if (val !== undefined) {
             settings[setting] = val;
         }
     }

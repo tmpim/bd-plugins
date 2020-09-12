@@ -38,6 +38,7 @@ class Tetrio implements BdPlugin {
         volume: 0.4, // The volume to play notifications at
         launchDesktop: false, // Whether to launch the desktop client directly or not
         ignoreFirstTime: false, // Whether to show the popup at plugin load (w/to ignore already running games)
+        respectDND: true, // Respects when status is set to DND: sounds won't play
     })
 
     getName(): string { return "Tetrio"; }
@@ -142,6 +143,15 @@ class Tetrio implements BdPlugin {
                     settings.launchDesktop = !settings.launchDesktop;
                 }}
             />
+
+            <PanelFormItem
+                label="Mute when status set to DND"
+                type="Switch"
+                value={settings.respectDND}
+                onChange={() => {
+                    settings.respectDND = !settings.respectDND;
+                }}
+            />
         </>);
     }
 
@@ -164,11 +174,20 @@ class Tetrio implements BdPlugin {
         });
     }
 
+    isStatusDND() {
+        const SettingsModule = BdApi.findModuleByProps("status", "nativePhoneIntegrationEnabled");
+        return SettingsModule.status == "dnd"
+    }
+
     lastSound?: HTMLAudioElement;
     playNotification(): Promise<void> {
         if (this.notificationSound) {
             if (this.lastSound) {
                 this.lastSound.pause();
+            }
+
+            if (this.settings.respectDND && this.isStatusDND()) {
+                return; // Don't interrupt!!!
             }
 
             const elm = document.createElement("audio");
