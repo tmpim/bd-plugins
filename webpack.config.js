@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const glob = require("glob");
 const path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const toCamel = (s) => {
     return s.replace(/((?:[-_]|^)[a-z])/ig, ($1) => {
@@ -55,5 +56,17 @@ module.exports = {
         })
     ],
 
-    mode: "development"
+    mode: "production",
+    optimization: {
+        minimizer: [
+            new TerserPlugin({
+                extractComments: false,
+                terserOptions: {
+                    output: {
+                        comments: /^META/
+                    }
+                }
+            })
+        ]
+    }
 };
