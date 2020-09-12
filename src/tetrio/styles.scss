@@ -1,0 +1,102 @@
+$wid: 24rem;
+
+#tetrio-plgn-container {
+    position: relative;
+    z-index: 999;
+}
+
+.TetraBanner {
+    position: fixed;
+    width: $wid;
+    height: 3rem;
+    background: #714882;
+    color: white;
+    padding: 1rem;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 8px 20px 9px #19012369;
+    bottom: 0;
+    left: calc(50% - #{$wid/2 + 1rem});
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    animation: slide-up 0.4s ease;
+
+    &.closing {
+        transition: opacity 0.4s ease, transform 0.4s ease-in;
+        opacity: 0;
+        transform: translate3D(0, 20px, 0);
+    }
+
+    img {
+        height: 100%;
+        margin-right: 0.75rem;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    > span {
+        position: relative;
+        .join {
+            position: absolute;
+            color: #fdb9b9;
+            left: 0;
+            top: calc(1em + 6px);
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    .ic-close {
+        margin: 0 1rem;
+        border: 1px solid white;
+        border-radius: 500px;
+        width: 24px;
+        height: 24px;
+    }
+
+    .tet-text {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .tet-icon {
+        position: relative;
+        > svg {
+            position: relative;
+            width: 12px;
+            fill: rgba(255, 255, 255, 0.7);
+            top: 2px;
+            padding: 1.5rem 0.5rem;
+            cursor: pointer;
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: calc(1rem + 2px);
+            width: calc(1rem + 12px);
+            height: calc(1rem + 12px);
+            border-radius: 32px;
+            transition: background 100ms ease;
+        }
+        &:hover::before {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        &:active::before {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    }
+}
+
+@keyframes slide-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

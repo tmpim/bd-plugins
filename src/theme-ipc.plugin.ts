@@ -1,8 +1,3 @@
-/**
- * @name ThemeIPC
- * @authorId 333530784495304705
- */
-
 import { BdPlugin } from "../types/BdPlugin";
 import { createServer, Server, Socket } from "net";
 import { unlinkSync } from "fs";
@@ -15,7 +10,7 @@ interface SettingsModule {
     updateRemoteSettings(newSettings: Record<string, string>): Promise<void>;
 }
 
-class ThemeIPC implements BdPlugin {
+class ThemeIpc implements BdPlugin {
     settingsModule?: SettingsModule;
 
     ipcServer?: Server;
@@ -77,4 +72,4 @@ class ThemeIPC implements BdPlugin {
     }
 }
 
-export = ThemeIPC;
+export = ThemeIpc;

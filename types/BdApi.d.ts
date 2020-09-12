@@ -337,5 +337,10 @@ export namespace BdApiModule {
      * Removes some previously linked JS by [`linkJS`](#linkjsid-url).
      */
     function unlinkJS(id: string): void;
+
+    /**
+     * Determines if the given setting is enabled
+     */
+    function isSettingEnabled(...scopes: string[]): boolean;
 }
 

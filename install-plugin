@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-pluginDir="./build"
+pluginDir="./dist"
 bdConfigDir="$HOME/.config/BetterDiscord/plugins/"
 
 red=`tput setaf 1`
@@ -8,6 +8,12 @@ green=`tput setaf 2`
 orange=`tput setaf 3`
 bold=`tput bold`
 reset=`tput sgr0`
+
+# Dependancy check
+if ! command -v jq &> /dev/null
+then
+    echo "${bold}${red}ERROR: I need jq to work properly!"
+fi
 
 # First build all the plugins
 function buildPlugins {
@@ -17,8 +23,14 @@ function buildPlugins {
         yarn
         yarn build
     else
-        npm install
-        npm run-script build
+        if command -v npm &> /dev/null
+        then
+            npm install
+            npm run-script build
+        else
+            echo "${bold}${red}ERROR: Either yarn or npm must be installed!"
+            exit 1
+        fi
     fi
 }
 
@@ -123,10 +135,10 @@ function installPlugin {
 
     if [ $removePlugins -eq 0 ]
     then
-        echo -n "${orange}Installing Plugin: ${reset}$pluginName... "
+        echo -n "${orange}Installing Plugin: ${reset}${bold}$pluginName${reset}... "
         cp $1 $bdConfigDir 2> /dev/null
     else
-        echo -n "${red}Removing Plugin: ${reset}$pluginName... "
+        echo -n "${red}Removing Plugin: ${reset}${bold}$pluginName... "
         rm $bdConfigDir/$(basename $1) 2> /dev/null
     fi
 
@@ -136,6 +148,30 @@ function installPlugin {
     else
         echo "${bold}${red}ERROR${reset}"
         installFailed=1
+        return 1
+    fi
+
+    pluginNameLower=$(echo "$pluginName" | tr '[:upper:]' '[:lower:]')
+    if [ -d "./assets/$pluginNameLower" ]
+    then
+        if [ $removePlugins -eq 0 ]
+        then
+            echo -n "${orange}Installing${reset} ${bold}$pluginName ${reset}${orange}Assets:${reset}... "
+            mkdir -p $bdConfigDir/assets
+            cp -r ./assets/$pluginNameLower $bdConfigDir/assets/ 2> /dev/null
+        else
+            echo -n "${red}Removing${reset} ${bold}$pluginName ${reset}${red}Assets:${reset}... "
+            rm -r $bdConfigDir/assets/$pluginNameLower/ 2> /dev/null
+        fi
+
+        if [ $? -eq 0 ]
+        then
+            echo "${bold}${green}OK${reset}"
+        else
+            echo "${bold}${red}ERROR${reset}"
+            installFailed=1
+            return 1
+        fi
     fi
 }
 
