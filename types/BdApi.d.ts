@@ -57,7 +57,6 @@ unlinkJS: ƒ (e)
 
 import * as ReactInstance from 'react';
 import * as ReactDOMInstance from 'react-dom';
-import { object } from 'prop-types';
 
 declare global {
     const BdApi: typeof BdApiModule;

@@ -3,13 +3,29 @@ import * as logger from "./logger";
 import { getSettings, settingsIds } from "./bdsettings";
 import { removeDuplicates } from "./util/arrayutils";
 import { TypedProxy } from "./util/typedproxy";
+import { DiscordClassNames } from "../../types/classes";
 
-const classList: Record<string, string[]> = DiscordClasses.classList;
-const classModules: Record<string, Record<string, string>> = DiscordClasses.classModules;
+const classListPromise: Promise<Record<string, string[]>> = DiscordClasses.classList;
+const classModulesPromise: Promise<Record<string, Record<string, string>>> = DiscordClasses.classModules;
+
+export let discordClassNames: DiscordClassNames;
+
+let classList: Record<string, string[]>;
+classListPromise.then(d => classList = d)
+    .then(() => (discordClassNames = new TypedProxy(classList, {
+        get(_target, item: string) {
+            return getDiscordClass(item, false);
+        }
+    }), 0));
+
+let classModules: Record<string, Record<string, string>>;
+classModulesPromise.then(d => classModules = d);
 
 export const undefinedClass = "tlib-undefined"
 
 export function getDiscordClass(item: string, selector: boolean) {
+    if (!classModules) return "";
+
     let className = undefinedClass;
     if (classList[item] === undefined) {
         logger.warn(item + " not found in DiscordClasses");
@@ -39,9 +55,3 @@ export function getDiscordClass(item: string, selector: boolean) {
         return removeDuplicates(className.split(" ")).join(" ");
     }
 };
-
-export const discordClassNames: { [k in keyof typeof DiscordClasses.classList]: string } = new TypedProxy(DiscordClasses.classList, {
-    get(_target, item: string) {
-        return getDiscordClass(item, false);
-    }
-});

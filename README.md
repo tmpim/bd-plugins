@@ -18,6 +18,7 @@ $>
 
 This plugin only works in the `tmpim` guild.
 
+---
 ### BadgeClasses
 > Adds CSS classes to the channel badges when you have pings
 

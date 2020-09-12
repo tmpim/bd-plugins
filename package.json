@@ -4,6 +4,7 @@
   "description": "Collection of plugins for BetterDiscord",
   "author": "Emma",
   "license": "MIT",
+  "sideEffects": false,
   "scripts": {
     "build": "npx webpack"
   },
@@ -16,8 +17,10 @@
   },
   "dependencies": {
     "@types/mime-types": "^2.1.0",
+    "@types/node-gzip": "^1.1.0",
+    "compression-webpack-plugin": "^5.0.2",
     "dataurl": "^0.1.0",
-    "mime-types": "^2.1.27",
+    "node-gzip": "^1.1.2",
     "node-sass": "^4.14.1",
     "raw-loader": "^4.0.1",
     "sass-loader": "^10.0.2",

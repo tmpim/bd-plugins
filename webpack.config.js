@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const glob = require("glob");
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const toCamel = (s) => {
     return s.replace(/((?:[-_]|^)[a-z])/ig, ($1) => {
@@ -14,7 +15,6 @@ const toCamel = (s) => {
 
 module.exports = {
     target: "electron-preload",
-    devtool: "inline-source-map",
 
     entry: glob.sync("./src/**/*.plugin.ts*").reduce((acc, path) => {
         const entry = path.match(/.+\/(.+?).plugin/)[1];
@@ -58,6 +58,7 @@ module.exports = {
 
     mode: "production",
     optimization: {
+        usedExports: true,
         minimizer: [
             new TerserPlugin({
                 extractComments: false,

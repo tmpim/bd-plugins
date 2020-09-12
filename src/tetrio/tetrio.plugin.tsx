@@ -1,6 +1,5 @@
 import dataurl from "dataurl";
 import fs from "fs";
-import mime from "mime-types";
 import path from "path";
 import { BdPlugin } from "../../types/BdPlugin";
 import React from "../shared/discordreact";
@@ -11,9 +10,9 @@ import { defineSettings } from "../shared/settings/persistance";
 import { createSettingsPanel } from "../shared/settings/settingspanel";
 import * as spyglass from "./spyglass";
 import styles from "./styles.scss";
-import tetriologo from "./tetriologo";
 import { useSettings } from "../shared/settings/hook";
-const { useState, useEffect } = React;
+import { useImageAsset } from "../shared/hooks";
+const { useState, useEffect, useMemo } = React;
 
 class Tetrio implements BdPlugin {
     static cssID = "TetrioCSS";
@@ -160,14 +159,9 @@ class Tetrio implements BdPlugin {
             return; // Don't try to load it since it doesn't exist
         }
 
-        const mimetype = mime.lookup(spath);
-        if (mimetype) {
-            this.notificationSound = dataurl.convert({
-                data: fs.readFileSync(spath), mimetype
-            });
-        } else {
-            console.error("Unable to determine MIME type for '" + spath + "', does it exist?");
-        }
+        this.notificationSound = dataurl.convert({
+            data: fs.readFileSync(spath), mimetype: "audio/" + path.extname(spath).replace(".", "")
+        });
     }
 
     lastSound?: HTMLAudioElement;
@@ -239,9 +233,11 @@ class Tetrio implements BdPlugin {
             closeMe();
         }
 
+        const tetrioLogo = useImageAsset(props.plugin, "tetrio.png");
+
         return shown && (
             <div className={"TetraBanner" + (closing ? " closing" : "")}>
-                <img src={tetriologo} onClick={openTetrio} />
+                <img src={tetrioLogo} onClick={openTetrio} />
                 <span className="tet-text" onClick={openTetrio}>
                     A tmpim TETR.IO lobby has started! <br />
                     <span className="join">Click to Join</span>
