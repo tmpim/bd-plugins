@@ -208,6 +208,7 @@ class Tetrio implements BdPlugin {
         const [lobbyWasOff, setLobbyPrev] = useState(true);
         const [closing, setClosing] = useState(false);
         const [url, setUrl] = useState("");
+        const [playerCount, setPlayerCount] = useState(0);
 
         useEffect(
             () => spyglass.removeListener.bind(this, spyglass.registerListener((msg) => {
@@ -232,6 +233,8 @@ class Tetrio implements BdPlugin {
                         } else if (tetData.users.length <= 1 && !lobbyWasOff) {
                             setLobbyPrev(true);
                         }
+
+                        setPlayerCount(tetData.users.length - 1); // minus 1 for Warma
                     }
 
                     setUrl(tetData.url);
@@ -259,7 +262,7 @@ class Tetrio implements BdPlugin {
                 <img src={tetrioLogo} onClick={openTetrio} />
                 <span className="tet-text" onClick={openTetrio}>
                     A tmpim TETR.IO lobby has started! <br />
-                    <span className="join">Click to Join</span>
+                    <span className="join">Click to Join ({playerCount} Players)</span>
                 </span>
                 <div className="tet-icon" onClick={closeMe}><CloseIcon /></div>
             </div>
