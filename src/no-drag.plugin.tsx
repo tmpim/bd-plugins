@@ -23,13 +23,16 @@ class NoDrag extends PatchManager implements BdPlugin {
 
     getName(): string { return "NoDrag"; }
     getDescription(): string { return "Adds a setting to disable reordering of channels/categories."; }
-    getVersion(): string { return "0.1.0"; }
+    getVersion(): string { return "0.1.1"; }
     getAuthor(): string { return "Emma"; }
+
+    manageChannelsPermission = BdApi.findModuleByProps("Permissions").Permissions.MANAGE_CHANNELS;
+    permissionsModule = BdApi.findModuleByProps("can", "canManageUser");
 
     start() {
         this.patchPermissions();
         addContextMenuItems(this, ["GuildChannelList", "ChannelListTextChannel", "ChannelListVoiceChannel"],
-            () =>
+            (e) => this.permissionsModule.can(this.manageChannelsPermission, e.props.guild) &&
                 <MenuGroup>
                     <MenuUncontrolledCheckboxItem
                         id="reorder"
@@ -66,12 +69,10 @@ class NoDrag extends PatchManager implements BdPlugin {
     }
 
     patchPermissions() {
-        const manageChannelsPermission = BdApi.findModuleByProps("Permissions").Permissions.MANAGE_CHANNELS;
-        const permissionsModule = BdApi.findModuleByProps("can", "canManageUser");
-        this.addPatch(flexpatch(permissionsModule, "can", {
+        this.addPatch(flexpatch(this.permissionsModule, "can", {
             after: (data) => {
                 if (this.shouldBlockDrags) {
-                    if (data.arguments[0]?.data === manageChannelsPermission.data) {
+                    if (data.arguments[0]?.data === this.manageChannelsPermission.data) {
                         const x = new Error();
                         if (x.stack.toString().includes("canDrag")) {
                             return false;

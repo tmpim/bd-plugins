@@ -138,6 +138,8 @@ export const MenuControlledCheckboxItem: React.FC<GenericMenuItemProps & {
 
 const realMenuItems = Object.values(MenuAPIItems);
 export function transformContextMenuItem(item: React.ReactNode) {
+    if (!item) return;
+
     const fitem = item as any;
     if (realMenuItems.find(x => x === fitem.type)) {
         const children = fitem.props.children;
@@ -179,8 +181,12 @@ export function injectContextMenuItems(obj: any, ...items: React.ReactNode[]) {
 
 // Even higher level abstractions past here
 
-export function addContextMenuItems(manager: PatchManager, types: ContextMenuType[], itemFactory: () => React.ReactNode): void {
+export function addContextMenuItems<MenuType extends ContextMenuType>(
+    manager: PatchManager,
+    types: MenuType[],
+    itemFactory: (e: OpenContextMenuEvent<MenuType>) => React.ReactNode
+): void {
     manager.addPatch(hookContextMenu(types, (e) => {
-        injectContextMenuItems(e.ctxMenuObject, itemFactory());
+        injectContextMenuItems(e.ctxMenuObject, itemFactory(e));
     }));
 }
