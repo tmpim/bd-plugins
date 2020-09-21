@@ -29,3 +29,9 @@ jobs:
       uses: actions/upload-artifact@v2.1.4
       with:
         path: dist/*.plugin.js
+    
+    - name: Upload to Remote Host
+      run: |
+        for plugin in dist/*.plugin.js; do
+          curl -F "plugin=@$plugin" -H 'Authorization: Bearer ${{secrets.UPLOAD_SECRET}}' https://bd.its-em.ma/upload
+        done
