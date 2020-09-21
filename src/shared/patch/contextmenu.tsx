@@ -126,7 +126,6 @@ export const MenuUncontrolledCheckboxItem: React.FC<GenericMenuItemProps & {
     action?: (value: boolean) => void
 }> = function(props) {
     const [checked, setChecked] = React.useState(props.initialChecked);
-    console.log(props.initialChecked, checked);
     return <NativeCheckbox {...props} action={() => {
         props.action?.(!checked);
         setChecked(!checked)

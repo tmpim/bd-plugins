@@ -23,7 +23,7 @@ class NoDrag extends PatchManager implements BdPlugin {
 
     getName(): string { return "NoDrag"; }
     getDescription(): string { return "Adds a setting to disable reordering of channels/categories."; }
-    getVersion(): string { return "0.0.1"; }
+    getVersion(): string { return "0.1.0"; }
     getAuthor(): string { return "Emma"; }
 
     start() {
