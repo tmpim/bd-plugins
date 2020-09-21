@@ -97,7 +97,7 @@ class AddQuote implements BdPlugin {
     renderCache: Set<string> = new Set();
     currentTextBox: any;
     performHookPatch() {
-        const PanelModule = BdApi.findModuleByProps("useConnectedUtilitiesProps");
+        const PanelModule: any = BdApi.findModuleByProps("useConnectedUtilitiesProps");
 
         // The compare function likely doesnt exist
         if (!PanelModule.default.compare) {

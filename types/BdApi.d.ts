@@ -254,7 +254,7 @@ export namespace BdApiModule {
     /**
      * Searches for an internal Discord webpack module that has every property passed.
      */
-    function findModuleByProps(...props: string[]): any;
+    function findModuleByProps<T extends string[], R extends {[k in T[number]]: any}>(...props: T): R;
 
     /**
      * Returns BandagedBD's instance of the core module. Only use this if you know what you are doing.

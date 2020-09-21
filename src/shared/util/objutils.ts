@@ -8,3 +8,7 @@ export function objectWithoutProperties<T>(obj: T, keys: string[]) {
 
     return target;
 }
+
+export function extractProperties<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
+    return keys.reduce((acc, k) => (acc[k] = obj[k], acc), {} as any);
+}

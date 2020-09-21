@@ -34,10 +34,7 @@ function buildPlugins {
     fi
 }
 
-if [ ! -d $pluginDir ]
-then
-    buildPlugins
-fi
+buildPlugins
 
 # Ensure that BetterDiscord is installed
 if [ ! -d $bdConfigDir ]

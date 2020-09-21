@@ -57,6 +57,7 @@ module.exports = {
     ],
 
     mode: "production",
+    devtool: "inline-source-map",
     optimization: {
         usedExports: true,
         minimizer: [

@@ -42,7 +42,8 @@ export type FormTags = {
     LABEL: "label"
 };
 
-const formComponents = BdApi.findModuleByProps("FormSection", "FormText");
+// TODO: Remove any
+const formComponents: any = BdApi.findModuleByProps("FormSection", "FormText");
 export const FormDivider: React.FC<{ className?: string }> = formComponents.FormDivider;
 
 export const FormText: React.FC<{
@@ -60,7 +61,7 @@ type: "SELECT" | "SLIDER" | "SWITCH" | "TEXTINPUT"
 
 const NativeSelect = BdApi.findModuleByDisplayName("SelectTempWrapper");
 const NativeText = BdApi.findModuleByDisplayName("TextInput");
-const NativeButton = BdApi.findModuleByProps("Colors", "Hovers", "Looks");
+const NativeButton: any = BdApi.findModuleByProps("Colors", "Hovers", "Looks");
 const NativeSlider = BdApi.findModuleByDisplayName("Slider");
 const NativeSwitch = BdApi.findModuleByDisplayName("Switch");
 export const Tooltip = BdApi.findModuleByDisplayName("Tooltip");
@@ -219,7 +220,7 @@ export const PanelFormItem: React.FC<{
             <Flex.Child>
                 <FormText disabled={props.disabled}>{props.label}</FormText>
             </Flex.Child>
-            <Flex.Child>
+            <Flex.Child basis={props.basis}>
                 <div>
                     {control}
                 </div>
