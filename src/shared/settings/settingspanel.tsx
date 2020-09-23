@@ -1,9 +1,9 @@
-import React from "../discordreact";
-import { Flex, FormDivider, FormTitle } from "../forms";
-import { discordClassNames } from "../classes";
-import { BdPlugin } from "../../../types/BdPlugin";
-import { addCSS } from "../commonstyles";
+import React from "@shared/base/discordreact";
+import { Flex, FormDivider, FormTitle } from "@shared/components/forms";
+import { addCSS } from "@shared/styles/commonstyles";
+import { BdPlugin } from "@type/BdPlugin";
 import styles from "./settingspanel.scss";
+import { Margins } from "@shared/styles/discordclasses";
 
 export function createSettingsPanel(plugin: BdPlugin, children: React.ReactNode) {
     addCSS("settings-panel", styles);
@@ -47,7 +47,7 @@ export const SettingsPanel: React.FC<{
             <Flex align={Flex.Align.CENTER}>
                 <FormTitle className="tlib-title" tag={"h2"}>{props.title}</FormTitle>
             </Flex>
-            <FormDivider className={`${discordClassNames.marginbottom8} ${discordClassNames.margintop4}`}/>
+            <FormDivider className={`${Margins.marginBottom8} ${Margins.marginTop4}`}/>
             <Flex className={`tlib-settingsinner`} direction={Flex.Direction.VERTICAL} grow={1}>
                 {props.children}
             </Flex>

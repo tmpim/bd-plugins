@@ -1,4 +1,4 @@
-import React from "./discordreact";
+import React from "@shared/base/discordreact";
 
 export function CloseIcon() {
     return (

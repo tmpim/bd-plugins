@@ -307,7 +307,7 @@ export namespace BdApiModule {
     function onRemoved(node: HTMLElement, callback: () => void): void;
 
     /**
-     * Saved some `data` for plugin `pluginName` under `key` key. Gets saved in the plugins folder under `pluginName.config.json`. Data can be saved with [`loadData`](#loaddatapluginname-key).
+     * Saved some `data` for plugin `pluginName` under `key` key. Gets saved in the plugins folder under `pluginName.config.json`. Data can be loaded with [`loadData`](#loaddatapluginname-key).
      */
     function saveData(pluginName: string, key: string, data: any): void;
 

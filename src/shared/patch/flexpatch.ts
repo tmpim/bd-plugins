@@ -1,5 +1,5 @@
-import uuidv4 from "../util/uuid";
-import * as logger from "../logger";
+import uuidv4 from "@shared/util/uuid";
+import logger from "@shared/base/logger";
 
 export interface PatchCallData<F extends GenericFunction> {
     arguments: ArgumentTypes<F>,

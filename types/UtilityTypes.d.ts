@@ -1,10 +1,3 @@
-declare module '*.scss' {
-    const content: string;
-    export default content;
-}
-
-
-// Utility types
 type ExtractPropertyNamesOfType<T, S>
   = { [K in keyof T]: T[K] extends S ? K : never }[keyof T];
 
@@ -19,3 +12,8 @@ type ExcludePropertiesOfType<T, S>
 
 type GenericFunction = (...args: any) => any;
 type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any ? A : never;
+
+type Constructor<T = {}> = new (...args: any[]) => T;
+
+type FC = React.FC
+type JSX = React.ReactNode

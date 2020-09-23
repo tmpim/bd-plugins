@@ -1,7 +1,7 @@
-import React from "./discordreact";
-import { objectWithoutProperties } from "./util/objutils";
-import { discordClassNames } from "./classes";
+import React from "@shared/base/discordreact";
+import { objectWithoutProperties } from "@shared/util/objutils";
 import { remote } from "electron";
+import { Margins } from "@shared/styles/discordclasses";
 
 export const Slider = BdApi.findModuleByDisplayName("Slider");
 
@@ -71,47 +71,47 @@ var d = function(e) {
     return e.toFixed(0) + "%"
 }
 */
-export const SliderContainer = React.forwardRef<unknown, {
-    initialValue: number
-    minValue: number
-    maxValue: number
-    onValueChange: (x: number) => void
-    asValueChanges: (x: number) => void
-    onValueRender: (x: number) => React.ReactNode
-}>(function(props, ref) {
-    const innerRef = React.useRef(null);
-    React.useImperativeHandle(ref, (function() {
-        return {
-            focus: function() {
-                var e;
-                return null === (e = innerRef.current) || void 0 === e ? void 0 : e.focus()
-            },
-            blur: function() {
-                var e;
-                return null === (e = innerRef.current) || void 0 === e ? void 0 : e.blur()
-            },
-            activate: function() {
-                return !1
-            }
-        }
-    }
-    ), []);
+// export const SliderContainer = React.forwardRef<unknown, {
+//     initialValue: number
+//     minValue: number
+//     maxValue: number
+//     onValueChange: (x: number) => void
+//     asValueChanges: (x: number) => void
+//     onValueRender: (x: number) => React.ReactNode
+// }>(function(props, ref) {
+//     const innerRef = React.useRef(null);
+//     React.useImperativeHandle(ref, (function() {
+//         return {
+//             focus: function() {
+//                 var e;
+//                 return null === (e = innerRef.current) || void 0 === e ? void 0 : e.focus()
+//             },
+//             blur: function() {
+//                 var e;
+//                 return null === (e = innerRef.current) || void 0 === e ? void 0 : e.blur()
+//             },
+//             activate: function() {
+//                 return !1
+//             }
+//         }
+//     }
+//     ), []);
 
-    return (<div className={discordClassNames.menuslidercontainer}>
-        <NativeSlider
-            ref={innerRef}
-            handleSize={16}
-            className={discordClassNames.menuslider}
-            initialValue={props.initialValue}
-            minValue={props.minValue}
-            maxValue={props.maxValue}
-            onValueChange={props.onValueChange}
-            asValueChanges={props.asValueChanges}
-            onValueRender={(e: number) => e.toFixed(0) + "%"}
-            orientation="horizontal"
-        />
-    </div>);
-});
+//     return (<div className={discordClassNames.menuslidercontainer}>
+//         <NativeSlider
+//             ref={innerRef}
+//             handleSize={16}
+//             className={discordClassNames.menuslider}
+//             initialValue={props.initialValue}
+//             minValue={props.minValue}
+//             maxValue={props.maxValue}
+//             onValueChange={props.onValueChange}
+//             asValueChanges={props.asValueChanges}
+//             onValueRender={(e: number) => e.toFixed(0) + "%"}
+//             orientation="horizontal"
+//         />
+//     </div>);
+// });
 
 
 
@@ -176,7 +176,7 @@ export const PanelFormItem: React.FC<{
             const data = await remote.dialog.showOpenDialog({ properties: ["openFile"], filters: props.filter });
             if (!data.canceled && data.filePaths[0]) {
                 const path = data.filePaths[0];
-                props.onChange(path);
+                props.onChange?.(path);
             }
         }
     }
@@ -216,7 +216,7 @@ export const PanelFormItem: React.FC<{
     }
 
     return (
-        <Flex className={discordClassNames.marginbottom8} align={Flex.Align.CENTER} direction={Flex.Direction.HORIZONTAL} grow={1}>
+        <Flex className={Margins.marginBottom8} align={Flex.Align.CENTER} direction={Flex.Direction.HORIZONTAL} grow={1}>
             <Flex.Child>
                 <FormText disabled={props.disabled}>{props.label}</FormText>
             </Flex.Child>

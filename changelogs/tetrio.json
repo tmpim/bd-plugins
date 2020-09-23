@@ -1,0 +1,11 @@
+{
+    "welcome": {
+        "description": ["A popup will appear when a lobby starts! Configure the sound and the launcher in settings."]
+    },
+    "versions": [
+        {
+            "version": "0.0.1",
+            "added": [["Initial implementation"]]
+        }
+    ]
+}

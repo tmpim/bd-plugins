@@ -3,18 +3,18 @@
  * @authorId 333530784495304705
  */
 
-import React from "./shared/discordreact";
-import { BdPlugin } from "../types/BdPlugin";
-import { hookContextMenu, MenuItem, MenuUncontrolledCheckboxItem, transformContextMenuItem, addContextMenuItems, MenuGroup } from "./shared/patch/contextmenu";
-import { CancelFlexPatch, flexpatch } from "./shared/patch/flexpatch";
-import PatchManager from "./shared/extends/PatchManager";
-import { defineSettings } from "./shared/settings/persistance";
-import { createSettingsPanel } from "./shared/settings/settingspanel";
-import { PanelFormItem, FormText } from "./shared/forms";
-import { useSettings } from "./shared/settings/hook";
-import { discordClassNames } from "./shared/classes";
+import React from "@shared/base/discordreact";
+import { addContextMenuItems, MenuGroup, MenuUncontrolledCheckboxItem } from "@shared/components/contextmenu";
+import { FormText, PanelFormItem } from "@shared/components/forms";
+import { flexpatch } from "@shared/patch/flexpatch";
+import PatchManager from "@shared/patch/PatchManager";
+import { useSettings } from "@shared/settings/hook";
+import { defineSettings } from "@shared/settings/persistance";
+import { createSettingsPanel } from "@shared/settings/settingspanel";
+import { BdPlugin } from "@type/BdPlugin";
+import { Margins } from "@shared/styles/discordclasses";
 
-class NoDrag extends PatchManager implements BdPlugin {
+export default class NoDrag extends PatchManager implements BdPlugin {
     private shouldBlockDrags: boolean = true;
 
     settings = defineSettings(this, {
@@ -58,7 +58,7 @@ class NoDrag extends PatchManager implements BdPlugin {
                 basis="20%"
             />
 
-            <FormText className={discordClassNames.marginbottom8} tag="h4" align="right">
+            <FormText className={Margins.marginBottom8} tag="h4" align="right">
                 Setting the delay to 0 turns off auto-reenable.
             </FormText>
         </>);
@@ -74,7 +74,7 @@ class NoDrag extends PatchManager implements BdPlugin {
                 if (this.shouldBlockDrags) {
                     if (data.arguments[0]?.data === this.manageChannelsPermission.data) {
                         const x = new Error();
-                        if (x.stack.toString().includes("canDrag")) {
+                        if (x.stack?.toString().includes("canDrag")) {
                             return false;
                         }
                     }
@@ -96,5 +96,3 @@ class NoDrag extends PatchManager implements BdPlugin {
         }
     }
 }
-
-export = NoDrag;

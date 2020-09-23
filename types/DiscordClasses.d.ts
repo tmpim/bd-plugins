@@ -1,0 +1,657 @@
+export namespace DiscordClassNames {
+    export type ContextMenu = {
+        menu: string
+        scroller: string
+        styleFixed: string
+        styleFlexible: string
+        item: string
+        hideInteraction: string
+        customItem: string
+        labelContainer: string
+        label: string
+        subtext: string
+        iconContainer: string
+        icon: string
+        hintContainer: string
+        imageContainer: string
+        caret: string
+        image: string
+        disabled: string
+        separator: string
+        submenuContainer: string
+        submenuPaddingContainer: string
+        submenu: string
+        colorDefault: string
+        checkbox: string
+        radioSelection: string
+        check: string
+        focused: string
+        colorBrand: string
+        colorDanger: string
+        colorPremium: string
+        groupLabel: string
+    }
+    export type Scrollers = {
+        scrollerBase: string
+        thin: string
+        fade: string
+        scrolling: string
+        auto: string
+        none: string
+        content: string
+        disableScrollAnchor: string
+    }
+    export type AccountDetails = {
+        container: string
+        avatar: string
+        redIcon: string
+        avatarWrapper: string
+        nameTag: string
+        canCopy: string
+        hasBuildOverride: string
+        buildOverrideButton: string
+        usernameContainer: string
+        copySuccess: string
+        godlike: string
+        statusTooltip: string
+        customStatus: string
+        strikethrough: string
+        emoji: string
+    }
+    export type Typing = {
+        base: string
+        text: string
+        ellipsis: string
+        cooldownWrapper: string
+        slowModeIcon: string
+        typing: string
+        activityInviteEducation: string
+        activityInviteEducationFadeIn: string
+        activityInviteEducationArrow: string
+    }
+    export type UserPopout = {
+        marginBottom4: string
+        marginBottom8: string
+        marginBottom20: string
+        marginTop20: string
+        size10: string
+        size12: string
+        size14: string
+        size16: string
+        height12: string
+        userSelectText: string
+        userPopout: string
+        header: string
+        headerBotTagWithNickname: string
+        headerTop: string
+        headerNormal: string
+        headerStreaming: string
+        headerSpotify: string
+        headerXbox: string
+        headerPlaying: string
+        avatarWrapper: string
+        avatarWrapperNormal: string
+        avatarHint: string
+        avatarWrapperNonUserBot: string
+        avatarHintInner: string
+        headerText: string
+        headerNameWrapper: string
+        headerName: string
+        headerTagUsernameNoNickname: string
+        headerTag: string
+        headerTagWithNickname: string
+        headerTagNoNickname: string
+        headerActivityText: string
+        headerLive: string
+        headerLiveText: string
+        headerEmoji: string
+        headerLiveIcon: string
+        ["live-pulse"]: string
+        activity: string
+        body: string
+        bodyInnerWrapper: string
+        rolesList: string
+        note: string
+        endBodySection: string
+        bodyTitle: string
+        footer: string
+        wumpusWrapper: string
+        wumpus: string
+        wumpusTooltip: string
+        wumpusShown: string
+        protip: string
+        applicationStreaming: string
+        customStatus: string
+        customStatusEmoji: string
+        customStatusSoloEmoji: string
+        customStatusText: string
+    }
+    export type PopoutRoles = {
+        flex: string
+        alignCenter: string
+        justifyCenter: string
+        wrap: string
+        root: string
+        role: string
+        roleCircle: string
+        roleRemoveIcon: string
+        roleName: string
+        actionButton: string
+        overflowButton: string
+        addButton: string
+        addButtonIcon: string
+        overflowRolesPopout: string
+        overflowRolesPopoutArrowWrapper: string
+        overflowRolesPopoutArrow: string
+        popoutBottom: string
+        popoutTop: string
+        overflowRolesPopoutHeader: string
+        overflowRolesPopoutHeaderIcon: string
+        overflowRolesPopoutHeaderText: string
+    }
+    export type UserModal = {
+        root: string
+        topSectionStreaming: string
+        topSectionSpotify: string
+        topSectionXbox: string
+        topSectionPlaying: string
+        profileBadgePartner: string
+        header: string
+        customStatusText: string
+        customStatus: string
+        customStatusEmoji: string
+        customStatusSoloEmoji: string
+        topSectionNormal: string
+        activityHeader: string
+        headerInfo: string
+        nameTag: string
+        botTag: string
+        avatar: string
+        username: string
+        discriminator: string
+        profileBadges: string
+        profileBadgeWrapper: string
+        profileBadge: string
+        profileBadgeStaff: string
+        profileBadgeHypesquad: string
+        profileBadgeHypeSquadOnlineHouse1: string
+        profileBadgeHypeSquadOnlineHouse2: string
+        profileBadgeHypeSquadOnlineHouse3: string
+        profileBadgeHypeSquadOnlineHouse1Winner: string
+        profileBadgeHypeSquadOnlineHouse2Winner: string
+        profileBadgeHypeSquadOnlineHouse3Winner: string
+        profileBadgeVerifiedDeveloper: string
+        profileBadgeEarlySupporter: string
+        profileBadgePremium: string
+        profileBadgeBugHunterLevel1: string
+        profileBadgeBugHunterLevel2: string
+        profileGuildSubscriberlvl1: string
+        profileGuildSubscriberlvl2: string
+        profileGuildSubscriberlvl3: string
+        profileGuildSubscriberlvl4: string
+        profileGuildSubscriberlvl5: string
+        profileGuildSubscriberlvl6: string
+        profileGuildSubscriberlvl7: string
+        profileGuildSubscriberlvl8: string
+        profileGuildSubscriberlvl9: string
+        actionButton: string
+        actionRightButton: string
+        buttonInvertedPurple: string
+        headerFill: string
+        additionalActionsIcon: string
+        tabBarContainer: string
+        tabBar: string
+        tabBarItem: string
+        activity: string
+        body: string
+        listScroller: string
+        infoScroller: string
+        userInfoSection: string
+        userInfoSectionHeader: string
+        note: string
+        connectedAccounts: string
+        connectedAccount: string
+        connectedAccountIcon: string
+        connectedAccountNameInner: string
+        connectedAccountName: string
+        connectedAccountVerifiedIcon: string
+        connectedAccountOpenIcon: string
+        listAvatar: string
+        guildAvatarWithoutIcon: string
+        listRow: string
+        listRowContent: string
+        listName: string
+        guildNick: string
+        listDiscriminator: string
+        empty: string
+        emptyIcon: string
+        emptyIconFriends: string
+        emptyIconGuilds: string
+        emptyIconStreamerMode: string
+        emptyText: string
+    }
+    export type Textarea = {
+        textAreaHeight: string
+        channelTextArea: string
+        highlighted: string
+        focused: string
+        scrollableContainer: string
+        textArea: string
+        webkit: string
+        channelTextAreaDisabled: string
+        hasReply: string
+        inner: string
+        innerDisabled: string
+        sansAttachButton: string
+        attachButton: string
+        textAreaSlate: string
+        textAreaWithoutAttachmentButton: string
+        textAreaDisabled: string
+        buttons: string
+        buttonContainer: string
+        button: string
+        emojiButton: string
+        stickerIcon: string
+        fontSize12Padding: string
+        fontSize14Padding: string
+        fontSize15Padding: string
+        fontSize16Padding: string
+        fontSize18Padding: string
+        fontSize20Padding: string
+        fontSize24Padding: string
+    }
+    export type Popouts = {
+        popouts: string
+        popout: string
+        arrowAlignmentMiddle: string
+        arrowAlignmentTop: string
+        noShadow: string
+        popoutLeft: string
+        noArrow: string
+        popoutRight: string
+        popoutBottom: string
+        popoutBottomLeft: string
+        popoutBottomRight: string
+        popoutTop: string
+        popoutTopRight: string
+        popoutTopLeft: string
+        popoutInvert: string
+    }
+    export type Titles = {
+        title: string
+        h1: string
+        h2: string
+        h3: string
+        h4: string
+        h5: string
+        defaultMarginh1: string
+        defaultMarginh4: string
+        defaultMarginh2: string
+        defaultMarginh3: string
+        defaultMarginh5: string
+        disabled: string
+        required: string
+        errorMessage: string
+        errorSeparator: string
+        defaultColor: string
+        faded: string
+        error: string
+    }
+    export type Notices = {
+        notice: string
+        colorDefault: string
+        button: string
+        colorNeutral: string
+        colorDownload: string
+        colorNotification: string
+        colorDark: string
+        colorPremium: string
+        colorPremiumTier1: string
+        colorPremiumTier2: string
+        colorInfo: string
+        colorSuccess: string
+        colorDanger: string
+        colorStreamerMode: string
+        colorSpotify: string
+        platformIcon: string
+        colorBrand: string
+        colorCustom: string
+        closeButton: string
+        buttonMinor: string
+    }
+    export type Backdrop = {
+        backdrop: string
+        backdropWithLayer: string
+    }
+    export type Modals = {
+        modal: string
+        inner: string
+    }
+    export type AuditLog = {
+        auditLog: string
+        divider: string
+        header: string
+        headerDefault: string
+        headerClickable: string
+        headerExpanded: string
+        timeWrap: string
+        timestamp: string
+        avatar: string
+        expand: string
+        expandForeground: string
+        colorHook: string
+        userHook: string
+        discrim: string
+        changeDetails: string
+        detail: string
+        prefix: string
+        typeCreate: string
+        typeDelete: string
+        typeUpdate: string
+        dash: string
+        change: string
+        changeStr: string
+        overflowEllipsis: string
+        subListItem: string
+        icon: string
+        themeOverrideLight: string
+        targetAll: string
+        targetBan: string
+        targetChannel: string
+        targetGuild: string
+        targetEmoji: string
+        targetIntegration: string
+        targetInvite: string
+        targetMemberRole: string
+        targetMember: string
+        targetPermission: string
+        targetRole: string
+        targetVanityUrl: string
+        targetWebhook: string
+        targetWidget: string
+        targetMessage: string
+        themeOverrideDark: string
+    }
+    export type ChannelList = {
+        containerDefault: string
+        containerDragAfter: string
+        containerDragBefore: string
+        containerUserOver: string
+        iconBase: string
+        iconItem: string
+        mentionsBadge: string
+        selected: string
+        iconVisibility: string
+        disableClick: string
+        disabled: string
+        actionIcon: string
+        userLimit: string
+        threadsPopout: string
+        threadsPopoutTitle: string
+        threadsPopoutRow: string
+        threadPopoutName: string
+        threadsPopoutMore: string
+        wrapper: string
+        modeSelected: string
+        modeLocked: string
+        icon: string
+        content: string
+        mainContent: string
+        name: string
+        unread: string
+        children: string
+        typeThread: string
+        modeMuted: string
+        modeUnread: string
+        modeConnected: string
+        notInteractive: string
+        container: string
+        downloadProgressCircle: string
+        guilds: string
+        base: string
+        sidebar: string
+        hasNotice: string
+        panels: string
+        activityPanel: string
+        hiddenOnMobileStore: string
+    }
+    export type MemberList = {
+        membersWrap: string
+        archiveContainer: string
+        archiveActions: string
+        archiveButton: string
+        members: string
+        membersGroup: string
+        hiddenMembers: string
+        hiddenText: string
+        memberGroupsPlaceholder: string
+        placeholderPulse: string
+    }
+    export type TitleWrap = {
+        chat: string
+        form: string
+        chatContent: string
+        cursorPonter: string
+        content: string
+        noChat: string
+        channelTextArea: string
+        titleWrapper: string
+        noChannel: string
+        editPartyIcon: string
+        channelName: string
+        title: string
+        followButton: string
+        status: string
+    }
+    export type Titlebar = {
+        titleBar: string
+        withFrame: string
+        typeMacOS: string
+        typeMacOSWithFrame: string
+        macButtons: string
+        typeWindows: string
+        wordmark: string
+        wordmarkWindows: string
+        wordmarkMacOS: string
+        winButton: string
+        winButtonMinMax: string
+        winButtonClose: string
+        focused: string
+        macButton: string
+        macButtonClose: string
+        macButtonMaximize: string
+        macButtonMinimize: string
+        unfocused: string
+    }
+    export type Embeds = {
+        spoilerBlurRadius: string
+        embed: string
+        embedFull: string
+        embedAuthorName: string
+        embedAuthorNameLink: string
+        embedDescription: string
+        embedFieldName: string
+        embedFieldValue: string
+        embedFooterText: string
+        embedLink: string
+        embedProvider: string
+        embedTitle: string
+        embedTitleLink: string
+        grid: string
+        hasThumbnail: string
+        embedMargin: string
+        embedSuppressButton: string
+        embedAuthor: string
+        embedAuthorIcon: string
+        embedImage: string
+        embedThumbnail: string
+        embedVideo: string
+        embedGalleryImagesWrapper: string
+        embedGallerySide: string
+        embedGalleryImageElement: string
+        centerContent: string
+        embedVideoActions: string
+        embedVideoImageComponent: string
+        embedVideoImageComponentInner: string
+        embedVideoAction: string
+        embedIframe: string
+        embedGIFTag: string
+        embedFooter: string
+        embedFooterSeparator: string
+        embedFooterIcon: string
+        embedFields: string
+        embedField: string
+        embedMedia: string
+        embedSpotify: string
+        spoilerEmbed: string
+        hiddenSpoiler: string
+        spoilerAttachment: string
+    }
+    export type Layers = {
+        layers: string
+        layer: string
+        animating: string
+        bg: string
+        baseLayer: string
+    }
+    export type TooltipLayers = {
+        layerContainer: string
+        layer: string
+        layerHidden: string
+        disabledPointerEvents: string
+    }
+    export type Margins = {
+        marginXSmall: string
+        marginSmall: string
+        marginMedium: string
+        marginLarge: string
+        marginXLarge: string
+        marginReset: string
+        marginTop4: string
+        marginBottom4: string
+        marginTop8: string
+        marginBottom8: string
+        marginTop20: string
+        marginBottom20: string
+        marginTop40: string
+        marginBottom40: string
+        marginTop60: string
+        marginBottom60: string
+        marginCenterHorz: string
+    }
+    export type Dividers = {
+        switchItem: string
+        disabled: string
+        titleDefault: string
+        titleMini: string
+        title: string
+        note: string
+        dividerDefault: string
+        dividerMini: string
+        divider: string
+    }
+    export type Changelog = {
+        video: string
+        container: string
+        image: string
+        title: string
+        lead: string
+        added: string
+        fixed: string
+        improved: string
+        progress: string
+        marginTop: string
+        footer: string
+        socialLink: string
+        premiumBanner: string
+        premiumIcon: string
+        date: string
+    }
+    export type BasicInputs = {
+        inputWrapper: string
+        input: string
+        focused: string
+        error: string
+        success: string
+        disabled: string
+        editable: string
+        inputDefault: string
+        inputMini: string
+        inputPrefix: string
+    }
+    export type Messages = {
+        mentioned: string
+        localBot: string
+        replying: string
+        message: string
+        selected: string
+        buttons: string
+        cozyMessage: string
+        groupStart: string
+        systemMessage: string
+        backgroundFlash: string
+        channelTextArea: string
+        divider: string
+        disableInteraction: string
+        hasContent: string
+        beforeGroup: string
+    }
+    export type Guilds = {
+        wrapper: string
+        svg: string
+        lowerBadge: string
+        upperBadge: string
+        focusStroke: string
+        focusFill: string
+    }
+    export type EmojiPicker = {
+        emojiPickerHeight: string
+        minEmojiPickerWidth: string
+        borderRadius: string
+        wrapper: string
+        emojiPicker: string
+        emojiPickerInExpressionPicker: string
+        header: string
+        searchBar: string
+        diversitySelector: string
+        categoryList: string
+        bodyWrapper: string
+        emojiPickerListWrapper: string
+        inspector: string
+    }
+    export type Reactions = {
+        reactions: string
+        icon: string
+        reactionBtn: string
+        active: string
+        reaction: string
+        reactionReadOnly: string
+        reactionInner: string
+        reactionCount: string
+        reactionMe: string
+    }
+    export type Checkbox = {
+        checkbox: string
+        disabled: string
+        checkboxInner: string
+        checkboxElement: string
+        alt: string
+    }
+    export type Tooltips = {
+        tooltip: string
+        tooltipDisablePointerEvents: string
+        tooltipPointer: string
+        tooltipContent: string
+        tooltipContentAllowOverflow: string
+        tooltipTop: string
+        tooltipBottom: string
+        tooltipLeft: string
+        tooltipRight: string
+        tooltipBlack: string
+        tooltipGrey: string
+        tooltipBrand: string
+        tooltipRed: string
+        tooltipGreen: string
+        tooltipYellow: string
+    }
+}

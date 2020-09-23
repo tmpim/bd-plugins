@@ -1,4 +1,4 @@
-import { CancelFlexPatch } from "../patch/flexpatch";
+import { CancelFlexPatch } from "@shared/patch/flexpatch";
 
 export default class PatchManager {
     activePatches: CancelFlexPatch[] = []

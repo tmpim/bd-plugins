@@ -1,9 +1,9 @@
-import React from "../discordreact";
-import { BdPlugin } from "../../../types/BdPlugin";
-import { TypedProxy } from "../util/typedproxy";
+import React from "@shared/base/discordreact";
+import { TypedProxy } from "@shared/util/typedproxy";
+import { BdPlugin } from "@type/BdPlugin";
 
 export function useSettings<T extends object>(plugin: BdPlugin & {settings: T}): T {
-    const hooks: {[k in keyof T]?: [T[k], React.Dispatch<React.SetStateAction<T[k]>>]} = {};
+    const hooks: {[k in keyof T]: [T[k], React.Dispatch<React.SetStateAction<T[k]>>]} = {} as any;
     for (const setting in plugin.settings) {
         hooks[setting] = React.useState(plugin.settings[setting]);
     }

@@ -1,10 +1,10 @@
-import * as logger from "../shared/logger"
+import logger from "@shared/base/logger"
 
 let shouldConnect = false;
 let idCounter = 0;
 
 const listeners: { id: number; func: (msg: any) => void; }[] = [];
-let ws: WebSocket;
+let ws: WebSocket | undefined;
 export function connect() {
     if (ws) return;
     shouldConnect = true;
@@ -26,14 +26,14 @@ export function connect() {
 
     ws.onerror = (err) => {
         logger.error("Socket encountered error: " + err + "Closing socket", "spyglass");
-        ws.close();
+        ws?.close();
     };
 }
 
 export function close() {
     logger.log("Shutting down spyglass socket.");
     shouldConnect = false;
-    ws.close();
+    ws?.close();
 }
 
 export function registerListener(func: (msg: any) => void) {

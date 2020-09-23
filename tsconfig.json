@@ -1,20 +1,27 @@
 {
     "compilerOptions": {
         "jsx": "react",
-        "module": "CommonJS",
+        "moduleResolution": "node",
+        "module": "ESNext",
         "target": "ES6",
+        "sourceMap": true,
 
         "esModuleInterop": true,
         "noImplicitUseStrict": true,
         "removeComments": false,
 
         "noImplicitAny": true,
+        "strictNullChecks": true,
 
-        "rootDir": "src",
-        "outDir": "build",
+        "typeRoots": ["./types", "./node_modules/@types"],
 
-        "typeRoots": ["./types", "./node_modules/@types"]
+        "baseUrl": ".",
+        "paths": {
+            "@type/*": ["./types/*"],
+            "@shared/*": ["./src/shared/*"]
+        }
     },
 
-    "exclude": ["node_modules", "types"]
+    "include": ["types/**/*.ts", "src/**/*.ts", "src/**/*.tsx"],
+    "exclude": ["node_modules"]
 }

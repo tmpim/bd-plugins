@@ -3,10 +3,10 @@
  * @authorId 333530784495304705
  */
 
-import { BdPlugin } from "../types/BdPlugin";
-import { CancelPatch } from "../types/BdApi";
+import { CancelPatch } from "@type/BdApi";
+import { BdPlugin } from "@type/BdPlugin";
 
-class BadgeClasses implements BdPlugin {
+export default class BadgeClasses implements BdPlugin {
     static cssID = "MentionDotCSS";
 
     ChannelItem: any;
@@ -51,5 +51,3 @@ class BadgeClasses implements BdPlugin {
             } });
     }
 }
-
-export = BadgeClasses;

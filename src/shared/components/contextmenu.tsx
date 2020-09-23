@@ -1,9 +1,9 @@
-import { memo } from "../memo"
-import { flexpatch, CancelFlexPatch } from "./flexpatch";
-import React from "../discordreact";
-import * as logger from "../logger";
-import { extractProperties } from "../util/objutils";
-import PatchManager from "../extends/PatchManager";
+import React from "@shared/base/discordreact";
+import { CancelFlexPatch, flexpatch } from "@shared/patch/flexpatch";
+import PatchManager from "@shared/patch/PatchManager";
+import { memo } from "@shared/util/memo";
+import { extractProperties } from "@shared/util/objutils";
+import logger from "@shared/base/logger";
 
 const ContextModule = memo(() => BdApi.findModuleByProps("closeContextMenu", "openContextMenu"));
 
@@ -154,7 +154,7 @@ export function transformContextMenuItem(item: React.ReactNode) {
         const props = fitem.props;
         return <MenuItem
             id={props.id}
-            label={undefined}
+            label={undefined!}
             disabled={props.disabled}
             render={menuItemProps => {
                 props.state = props.state ?? extractProperties(props, ["checked", "value"]);

@@ -3,11 +3,11 @@
  * @authorId 333530784495304705
  */
 
-import { BdPlugin } from "../types/BdPlugin";
-import { CancelPatch } from "../types/BdApi";
-import { Discord } from "../types/DiscordTypes";
+import { BdPlugin } from "@type/BdPlugin";
+import { CancelPatch } from "@type/BdApi";
+import { Discord } from "@type/DiscordTypes";
 
-class AddQuote implements BdPlugin {
+export default class AddQuote implements BdPlugin {
     cancelRenderPatch: CancelPatch;
     cancelComparePatch: CancelPatch;
     stopped: boolean = true;
@@ -186,7 +186,7 @@ class AddQuote implements BdPlugin {
                 } else {
                     const channel = this.props.channel.id;
                     if (self.selectedMessages[channel]) {
-                        self.selectedMessages[channel] = null;
+                        delete self.selectedMessages[channel];
                         self.clearClasses();
                     }
                 }
@@ -196,7 +196,7 @@ class AddQuote implements BdPlugin {
 
             handleTabOrEnterOverride() {
                 const channel = this.props.channel.id;
-                self.selectedMessages[channel] = null;
+                delete self.selectedMessages[channel];
                 self.clearClasses();
 
                 return this.originalHandleTabOrEnter(arguments);
@@ -276,7 +276,7 @@ class AddQuote implements BdPlugin {
 
     getMessagesFromRange(channelId: string): Discord.Message[] {
         const range = this.selectedMessages[channelId];
-        if (!range) return;
+        if (!range) return [];
 
         const channel = this.MessageStore.getMessages(channelId);
         const messages: Discord.Message[] = [];
@@ -303,7 +303,7 @@ class AddQuote implements BdPlugin {
         messages.sort((a, b) => Number(BigInt(a.id) - BigInt(b.id)));
 
         // Now add the class to all the new messages
-        let lastNode: HTMLElement;
+        let lastNode: HTMLElement | null = null;
         for (const message of messages) {
             const messageNode = document.getElementById("chat-messages-" + message.id);
             if (messageNode instanceof HTMLElement) {
@@ -325,7 +325,7 @@ class AddQuote implements BdPlugin {
     static REL_RANGE_RE = /^!(?:addquote |addquote)(?:\~(\d+))?(\+\d+)?$/;
     parseRange(channel: string, text: string) {
         const fail = () => {
-            this.selectedMessages[channel] = null;
+            delete this.selectedMessages[channel];
             this.clearClasses();
         }
 
@@ -359,7 +359,7 @@ class AddQuote implements BdPlugin {
 
         let firstMessage = messages.get(snowflake);
         if (!firstMessage) {
-            this.selectedMessages[channel] = null;
+            delete this.selectedMessages[channel];
             this.clearClasses();
             return;
         };
@@ -452,7 +452,7 @@ class AddQuote implements BdPlugin {
             render() {
                 return BdApi.React.createElement<any>(function(props) {
                     const renderValue = MenuActions(props);
-                    const children: any[] = renderValue.props.children;
+                    const children: any[] = renderValue?.props.children ?? [];
                     children.splice(children.length - 2, 0,
                         self.renderIconButton({
                             channel: props.channel,
@@ -518,5 +518,3 @@ class AddQuote implements BdPlugin {
         }
     }
 }
-
-export = AddQuote;

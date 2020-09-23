@@ -1,20 +1,20 @@
 import dataurl from "dataurl";
 import fs from "fs";
 import path from "path";
-import { BdPlugin } from "../../types/BdPlugin";
-import React from "../shared/discordreact";
-import { PanelFormItem } from "../shared/forms";
-import { CloseIcon } from "../shared/icons";
-import { assetsPath } from "../shared/paths";
-import { defineSettings } from "../shared/settings/persistance";
-import { createSettingsPanel } from "../shared/settings/settingspanel";
+import { BdPlugin } from "@type/BdPlugin";
+import React from "@shared/base/discordreact";
+import { PanelFormItem } from "@shared/components/forms";
+import { CloseIcon } from "@shared/components/icons";
+import { assetsPath } from "@shared/base/paths";
+import { defineSettings } from "@shared/settings/persistance";
+import { createSettingsPanel } from "@shared/settings/settingspanel";
 import * as spyglass from "./spyglass";
 import styles from "./styles.scss";
-import { useSettings } from "../shared/settings/hook";
-import { useImageAsset } from "../shared/hooks";
+import { useSettings } from "@shared/settings/hook";
+import { useImageAsset } from "@shared/util/hooks";
 const { useState, useEffect, useMemo } = React;
 
-class Tetrio implements BdPlugin {
+export default class Tetrio implements BdPlugin {
     static cssID = "TetrioCSS";
     static assetsPath = assetsPath("Tetrio");
 
@@ -187,7 +187,7 @@ class Tetrio implements BdPlugin {
             }
 
             if (this.settings.respectDND && this.isStatusDND()) {
-                return; // Don't interrupt!!!
+                return Promise.resolve(); // Don't interrupt!!!
             }
 
             const elm = document.createElement("audio");
@@ -196,6 +196,8 @@ class Tetrio implements BdPlugin {
             this.lastSound = elm;
             return elm.play();
         }
+
+        return Promise.reject();
     }
 
     // React FC for the actual Popup
@@ -248,7 +250,9 @@ class Tetrio implements BdPlugin {
 
         const openTetrio = () => {
             if (props.plugin.settings.launchDesktop) {
-                window.open(`tetrio://${url.match("#(.+)")[1]}`);
+                const roomid = url.match("#(.+)")?.[1];
+                if (roomid) window.open(`tetrio://${roomid}`);
+                else BdApi.showToast("Spyglass returned invalid room url!", {type: "error"});
             } else {
                 window.open(url);
             }
@@ -257,7 +261,7 @@ class Tetrio implements BdPlugin {
 
         const tetrioLogo = useImageAsset(props.plugin, "tetrio.png");
 
-        return shown && (
+        return (<>{shown && (
             <div className={"TetraBanner" + (closing ? " closing" : "")}>
                 <img src={tetrioLogo} onClick={openTetrio} />
                 <span className="tet-text" onClick={openTetrio}>
@@ -266,8 +270,6 @@ class Tetrio implements BdPlugin {
                 </span>
                 <div className="tet-icon" onClick={closeMe}><CloseIcon /></div>
             </div>
-        );
+        )}</>);
     }
 }
-
-export = Tetrio;

@@ -2,7 +2,6 @@ const webpack = require("webpack");
 const glob = require("glob");
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
-const CompressionPlugin = require('compression-webpack-plugin');
 
 const toCamel = (s) => {
     return s.replace(/((?:[-_]|^)[a-z])/ig, ($1) => {
@@ -16,6 +15,10 @@ const toCamel = (s) => {
 module.exports = {
     target: "electron-preload",
 
+    externals: {
+        electron: `electron`,
+    },
+
     entry: glob.sync("./src/**/*.plugin.ts*").reduce((acc, path) => {
         const entry = path.match(/.+\/(.+?).plugin/)[1];
         acc[entry] = path
@@ -25,7 +28,8 @@ module.exports = {
     output: {
         filename: "[name].plugin.js",
         path: path.resolve(__dirname, "dist"),
-        libraryTarget: "commonjs2"
+        libraryTarget: "commonjs2",
+        libraryExport: "default"
     },
 
     module: {
@@ -43,6 +47,9 @@ module.exports = {
     },
 
     resolve: {
+        alias: {
+            ["@shared"]: path.resolve(__dirname, "src/shared/")
+        },
         extensions: [".tsx", ".ts", ".js"],
     },
 
@@ -57,9 +64,10 @@ module.exports = {
     ],
 
     mode: "production",
-    devtool: "inline-source-map",
+    devtool: false,
     optimization: {
         usedExports: true,
+        innerGraph: true,
         minimizer: [
             new TerserPlugin({
                 extractComments: false,

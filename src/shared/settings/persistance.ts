@@ -1,5 +1,5 @@
-import { TypedProxy } from "../util/typedproxy";
-import { BdPlugin } from "../../../types/BdPlugin";
+import { TypedProxy } from "@shared/util/typedproxy";
+import { BdPlugin } from "@type/BdPlugin";
 
 export function defineSettings<T extends Record<string, any>>(plugin: BdPlugin, defaults: T): T {
     const settings = Object.assign({}, defaults);

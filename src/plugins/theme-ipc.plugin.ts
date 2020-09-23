@@ -1,4 +1,4 @@
-import { BdPlugin } from "../types/BdPlugin";
+import { BdPlugin } from "@type/BdPlugin";
 import { createServer, Server, Socket } from "net";
 import { unlinkSync } from "fs";
 
@@ -10,7 +10,7 @@ interface SettingsModule {
     updateRemoteSettings(newSettings: Record<string, string>): Promise<void>;
 }
 
-class ThemeIpc implements BdPlugin {
+export default class ThemeIpc implements BdPlugin {
     settingsModule?: SettingsModule;
 
     ipcServer?: Server;
@@ -63,7 +63,7 @@ class ThemeIpc implements BdPlugin {
 
             case "EADDRINUSE":
                 unlinkSync("/tmp/discord_theme");
-                this.ipcServer.listen("/tmp/discord_theme");
+                this.ipcServer?.listen("/tmp/discord_theme");
                 break;
 
             default:
@@ -71,5 +71,3 @@ class ThemeIpc implements BdPlugin {
         }
     }
 }
-
-export = ThemeIpc;
