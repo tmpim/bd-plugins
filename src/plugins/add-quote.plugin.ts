@@ -1,8 +1,3 @@
-/**
- * @name AddQuote
- * @authorId 333530784495304705
- */
-
 import { BdPlugin } from "@type/BdPlugin";
 import { CancelPatch } from "@type/BdApi";
 import { Discord } from "@type/DiscordTypes";

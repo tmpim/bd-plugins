@@ -1,8 +1,3 @@
-/**
- * @name NoDrag
- * @authorId 333530784495304705
- */
-
 import React from "@shared/base/discordreact";
 import { addContextMenuItems, MenuGroup, MenuUncontrolledCheckboxItem } from "@shared/components/contextmenu";
 import { FormText, PanelFormItem } from "@shared/components/forms";

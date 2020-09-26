@@ -14,6 +14,6 @@ export const assetsPath = (plugin: BdPlugin) => path.join(dataPath, "plugins", "
 export function pluginNameToFilename(name: string) {
     return name
         .split(/[\s-]/).join("")
-        .replace(/(?!^)[A-Z]/g, l => "-" + l)
+        .replace(/(?!^)(?<![A-Z])[A-Z]/g, l => "-" + l)
         .toLowerCase();
 }

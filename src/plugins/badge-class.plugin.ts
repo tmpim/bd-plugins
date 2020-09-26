@@ -1,8 +1,3 @@
-/**
- * @name BadgeClasses
- * @authorId 333530784495304705
- */
-
 import { CancelPatch } from "@type/BdApi";
 import { BdPlugin } from "@type/BdPlugin";
 import { mixinUpdater } from "@shared/mixins/updater";
@@ -19,7 +14,7 @@ class BadgeClasses implements BdPlugin {
 
     cancelRenderPatch: CancelPatch;
 
-    getName(): string { return "BadgeClasses"; }
+    getName(): string { return "BadgeClass"; }
     getDescription(): string { return "Adds CSS classes to the channel badges when you have pings."; }
     getVersion(): string { return "0.0.1"; }
     getAuthor(): string { return "Emma"; }
