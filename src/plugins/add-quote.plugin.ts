@@ -6,8 +6,11 @@
 import { BdPlugin } from "@type/BdPlugin";
 import { CancelPatch } from "@type/BdApi";
 import { Discord } from "@type/DiscordTypes";
+import { mixinChangeLog } from "@shared/mixins/changelog";
+import { mixinUpdater } from "@shared/mixins/updater";
 
-export default class AddQuote implements BdPlugin {
+export default mixinChangeLog(mixinUpdater(
+class AddQuote implements BdPlugin {
     cancelRenderPatch: CancelPatch;
     cancelComparePatch: CancelPatch;
     stopped: boolean = true;
@@ -517,4 +520,4 @@ export default class AddQuote implements BdPlugin {
             }
         }
     }
-}
+}));

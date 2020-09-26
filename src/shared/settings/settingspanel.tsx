@@ -1,12 +1,12 @@
 import React from "@shared/base/discordreact";
 import { Flex, FormDivider, FormTitle } from "@shared/components/forms";
-import { addCSS } from "@shared/styles/commonstyles";
+import { addCommonCSS } from "@shared/styles/commonstyles";
 import { BdPlugin } from "@type/BdPlugin";
 import styles from "./settingspanel.scss";
 import { Margins } from "@shared/styles/discordclasses";
 
 export function createSettingsPanel(plugin: BdPlugin, children: React.ReactNode) {
-    addCSS("settings-panel", styles);
+    addCommonCSS("settings-panel", styles);
 
     const container = document.createElement("div");
     container.className = `${plugin.getName()}-settings tlib-settingspanel`;

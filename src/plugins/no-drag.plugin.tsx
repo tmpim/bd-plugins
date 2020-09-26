@@ -13,8 +13,10 @@ import { defineSettings } from "@shared/settings/persistance";
 import { createSettingsPanel } from "@shared/settings/settingspanel";
 import { BdPlugin } from "@type/BdPlugin";
 import { Margins } from "@shared/styles/discordclasses";
+import { mixinChangeLog } from "@shared/mixins/changelog";
+import { mixinUpdater } from "@shared/mixins/updater";
 
-export default class NoDrag extends PatchManager implements BdPlugin {
+export default mixinChangeLog(mixinUpdater(class NoDrag extends PatchManager implements BdPlugin {
     private shouldBlockDrags: boolean = true;
 
     settings = defineSettings(this, {
@@ -95,4 +97,4 @@ export default class NoDrag extends PatchManager implements BdPlugin {
             }, +this.settings.reset_delay * 60 * 1000);
         }
     }
-}
+}));

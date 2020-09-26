@@ -15,5 +15,5 @@ type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any ? A
 
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-type FC = React.FC
+type FC<T={}> = React.FC<T>
 type JSX = React.ReactNode

@@ -319,6 +319,23 @@ export namespace DiscordClassNames {
         closeButton: string
         buttonMinor: string
     }
+    export type PlatformNotices = {
+        btn: string
+        ellipsis: string
+        icon: string
+        iconAndroid: string
+        iconApple: string
+        iconUSFlag: string
+        iconWindows: string
+        platformIcon: string
+        premiumAction: string
+        premiumIcon: string
+        premiumLogo: string
+        premiumText: string
+        testModeSKUSelector: string
+        textLink: string
+        textLinkSmall: string
+    }
     export type Backdrop = {
         backdrop: string
         backdropWithLayer: string

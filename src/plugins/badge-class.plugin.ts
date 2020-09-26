@@ -5,8 +5,11 @@
 
 import { CancelPatch } from "@type/BdApi";
 import { BdPlugin } from "@type/BdPlugin";
+import { mixinUpdater } from "@shared/mixins/updater";
+import { mixinChangeLog } from "@shared/mixins/changelog";
 
-export default class BadgeClasses implements BdPlugin {
+export default mixinChangeLog(mixinUpdater(
+class BadgeClasses implements BdPlugin {
     static cssID = "MentionDotCSS";
 
     ChannelItem: any;
@@ -50,4 +53,4 @@ export default class BadgeClasses implements BdPlugin {
                 }
             } });
     }
-}
+}));

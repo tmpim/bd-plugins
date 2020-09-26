@@ -12,11 +12,14 @@ import * as spyglass from "./spyglass";
 import styles from "./styles.scss";
 import { useSettings } from "@shared/settings/hook";
 import { useImageAsset } from "@shared/util/hooks";
+import { mixinUpdater } from "@shared/mixins/updater";
+import { mixinChangeLog } from "@shared/mixins/changelog";
 const { useState, useEffect, useMemo } = React;
 
-export default class Tetrio implements BdPlugin {
+export default mixinChangeLog(mixinUpdater(
+class Tetrio implements BdPlugin {
     static cssID = "TetrioCSS";
-    static assetsPath = assetsPath("Tetrio");
+    assetsPath = assetsPath(this);
 
     notificationSound?: string; // Data URL for the notification sound
 
@@ -61,6 +64,8 @@ export default class Tetrio implements BdPlugin {
             <this.LobbyPopup plugin={this}/>,
             document.getElementById('tetrio-plgn-container')
         );
+
+        (window as any).tethook = this;
     }
 
     stop(): void {
@@ -162,7 +167,7 @@ export default class Tetrio implements BdPlugin {
     reloadNotificationSound() {
         const spath = (this.settings.sound == "custom")
             ? this.settings.soundpath
-            : path.join(Tetrio.assetsPath, this.defaultSounds[this.settings.sound].filename);
+            : path.join(this.assetsPath, this.defaultSounds[this.settings.sound].filename);
 
         if (!fs.existsSync(spath)) {
             this.notificationSound = undefined;
@@ -272,4 +277,4 @@ export default class Tetrio implements BdPlugin {
             </div>
         )}</>);
     }
-}
+}));

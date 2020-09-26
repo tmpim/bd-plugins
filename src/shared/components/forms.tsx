@@ -1,6 +1,5 @@
 import React from "@shared/base/discordreact";
 import { objectWithoutProperties } from "@shared/util/objutils";
-import { remote } from "electron";
 import { Margins } from "@shared/styles/discordclasses";
 
 export const Slider = BdApi.findModuleByDisplayName("Slider");
@@ -17,6 +16,8 @@ interface FlexProperties {
     Child: React.FC<{
         wrap?: boolean
         basis?: string
+        grow?: number
+        shrink?: number
     }>
 }
 
@@ -64,7 +65,6 @@ const NativeText = BdApi.findModuleByDisplayName("TextInput");
 const NativeButton: any = BdApi.findModuleByProps("Colors", "Hovers", "Looks");
 const NativeSlider = BdApi.findModuleByDisplayName("Slider");
 const NativeSwitch = BdApi.findModuleByDisplayName("Switch");
-export const Tooltip = BdApi.findModuleByDisplayName("Tooltip");
 
 /*
 var d = function(e) {
@@ -173,6 +173,7 @@ export const PanelFormItem: React.FC<{
         // document.body.appendChild(dummy);
         // dummy.click();
         if (props.type == "File") {
+            const { remote } = await import("electron");
             const data = await remote.dialog.showOpenDialog({ properties: ["openFile"], filters: props.filter });
             if (!data.canceled && data.filePaths[0]) {
                 const path = data.filePaths[0];

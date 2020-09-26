@@ -7,7 +7,7 @@ import path from "path";
 
 export function useImageAsset(plugin: BdPlugin, filename: string) {
     return React.useMemo(() => {
-        const ipath = path.join(assetsPath(plugin.getName()), filename);
+        const ipath = path.join(assetsPath(plugin), filename);
         return dataurl.convert({
             data: fs.readFileSync(ipath), mimetype: "image/" + path.extname(filename).replace(".", "")
         });

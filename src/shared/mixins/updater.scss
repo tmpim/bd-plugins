@@ -1,0 +1,23 @@
+.tlib-up-container {
+    position: "relative";
+    height: "36px";
+    text-align: "center";
+
+    svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .tlib-up-notice {
+        height: 100%;
+        border-radius: 0;
+
+        .tlib-up-pluginname {
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

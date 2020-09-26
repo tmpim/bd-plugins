@@ -1,0 +1,6 @@
+{
+	"React Import": {
+		"prefix": "react",
+		"body": "import React from \"@shared/base/discordreact\""
+	}
+}

@@ -1,6 +1,8 @@
 import { BdPlugin } from "@type/BdPlugin";
 import { createServer, Server, Socket } from "net";
 import { unlinkSync } from "fs";
+import { mixinChangeLog } from "@shared/mixins/changelog";
+import { mixinUpdater } from "@shared/mixins/updater";
 
 interface SocketError extends Error {
     code: string;
@@ -10,7 +12,7 @@ interface SettingsModule {
     updateRemoteSettings(newSettings: Record<string, string>): Promise<void>;
 }
 
-export default class ThemeIpc implements BdPlugin {
+export default mixinChangeLog(mixinUpdater(class ThemeIpc implements BdPlugin {
     settingsModule?: SettingsModule;
 
     ipcServer?: Server;
@@ -70,4 +72,4 @@ export default class ThemeIpc implements BdPlugin {
                 return BdApi.showToast("An error occurred in ThemeIPC server, it may or may not still work.", { timeout: 5000, type: "error" });
         }
     }
-}
+}));
