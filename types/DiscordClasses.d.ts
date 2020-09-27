@@ -671,4 +671,39 @@ export namespace DiscordClassNames {
         tooltipGreen: string
         tooltipYellow: string
     }
+    export type Chat = {
+        sizeEmoji: string
+        wrapper: string
+        compact: string
+        cozy: string
+        contents: string
+        zalgo: string
+        header: string
+        hasReply: string
+        buttonContainer: string
+        systemMessageAccessories: string
+        avatar: string
+        clickable: string
+        timestamp: string
+        latin12CompactTimeStamp: string
+        latin24CompactTimeStamp: string
+        asianCompactTimeStamp: string
+        alt: string
+        timestampTooltip: string
+        timestampVisibleOnHover: string
+        username: string
+        botTag: string
+        botTagCompact: string
+        botTagCozy: string
+        replyLink: string
+        replyAvatar: string
+        replyUsername: string
+        separator: string
+        messageEditorCompact: string
+        messageContent: string
+        markupRtl: string
+        isSending: string
+        isFailed: string
+        edited: string
+    }
 }

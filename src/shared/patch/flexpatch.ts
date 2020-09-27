@@ -87,7 +87,8 @@ function generateCancel<O extends Record<string, GenericFunction>>(namespace: O,
 }
 
 function injectPatch<O extends Record<string, GenericFunction>, K extends keyof O>(target: O & PatchedModule, methodname: K): GenericFunction {
-    return target[methodname] = (function patchRunner(...args: any[]) {
+    const ijOriginal = target[methodname];
+    target[methodname] = (function patchRunner(...args: any[]) {
         const state = target?.__tlib_patch?.[methodname as string];
         if (!state) {
             // Patch got GC'd, but we're still here.
@@ -120,6 +121,15 @@ function injectPatch<O extends Record<string, GenericFunction>, K extends keyof 
             return returnValue;
         }
     }) as (O & PatchedModule)[K];
+
+    // Copy over any function props
+    for (const propName in ijOriginal) {
+        if (Object.prototype.hasOwnProperty.call(ijOriginal, propName)) {
+            target[methodname][propName] = ijOriginal[propName];
+        }
+    }
+
+    return target[methodname];
 }
 
 function ensurePatchReady<O extends Record<string, GenericFunction>, K extends keyof O>(namespace: O, methodname: K & string): O & PatchedModule {

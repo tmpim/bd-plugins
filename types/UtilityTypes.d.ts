@@ -23,4 +23,7 @@ interface FC<P = Record<string, unknown>, Children = React.ReactNode | null> {
   displayName?: string;
 }
 
-type JSX = React.ReactNode
+type JSX = React.ReactNode;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnsafeAny = any;

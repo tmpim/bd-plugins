@@ -13,16 +13,6 @@ $>
 
 ## Plugins
 ---
-### AddQuote
-> Adds an 'Add Quote' button to message action bar.
-
-This plugin only works in the `tmpim` guild.
-
----
-### BadgeClasses
-> Adds CSS classes to the channel badges when you have pings
-
----
 ### NoDrag
 > Adds a setting to disable reordering of channels/categories.
 
@@ -31,6 +21,20 @@ Disables channel dragging by default.
 Right clicking on a guild's sidebar grants an option to
 temporarily re-enable channel reordering. The delay before
 the ability is re-enabled is configurable in settings.
+
+---
+### SelfPresence
+> Adds a button to channel headers to see your rich presence data.
+
+---
+### AddQuote
+> Adds an 'Add Quote' button to message action bar.
+
+This plugin only works in the `tmpim` guild.
+
+---
+### BadgeClasses
+> Adds CSS classes to the channel badges when you have pings
 
 ---
 ### Tetrio

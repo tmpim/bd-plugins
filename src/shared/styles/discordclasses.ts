@@ -57,3 +57,4 @@ export const EmojiPickerClasses    = /*#__PURE__*/ buildProxy<DCN.EmojiPicker>  
 export const ReactionClasses       = /*#__PURE__*/ buildProxy<DCN.Reactions>       (/*#__PURE__*/ findByProps("reaction", "reactionInner"));
 export const CheckboxClasses       = /*#__PURE__*/ buildProxy<DCN.Checkbox>        (/*#__PURE__*/ findByProps("checkbox", "checkboxInner"));
 export const TooltipClasses        = /*#__PURE__*/ buildProxy<DCN.Tooltips>        (/*#__PURE__*/ findByProps("tooltip", "tooltipBlack"));
+export const ChatClasses           = /*#__PURE__*/ buildProxy<DCN.Chat>            (/*#__PURE__*/ findByProps("latin24CompactTimeStamp"));
