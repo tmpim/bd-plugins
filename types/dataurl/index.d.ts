@@ -1,6 +1,6 @@
 declare module "dataurl" {
     interface ConvertOptions {
-        data: any;
+        data: unknown;
         mimetype: string;
         charset?: string;
         encoded?: string; /// Whether to base64 encode the data. Defaults to true

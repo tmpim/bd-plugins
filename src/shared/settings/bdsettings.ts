@@ -11,6 +11,9 @@ export const settingsIds = oldSettings ? {
     showToasts: "settings.general.showToasts"
 };
 
-export function getSettings(key: string) {
-    if (typeof key == "string") return BdApi.isSettingEnabled(...key.split("."));
-};
+export function getSettings(key: string): boolean {
+    if (typeof key == "string")
+        return BdApi.isSettingEnabled(...key.split("."));
+
+    return false;
+}

@@ -10,5 +10,5 @@ export function memo<T>(fn: () => T): {get: () => T} {
 
             return value;
         }
-    }
+    };
 }

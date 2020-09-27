@@ -10,10 +10,17 @@ type ExtractPropertiesOfType<T, S>
 type ExcludePropertiesOfType<T, S>
   = Pick<T, ExcludePropertyNamesOfType<T, S>>;
 
-type GenericFunction = (...args: any) => any;
-type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any ? A : never;
+type GenericFunction = (...args: any[]) => unknown;
+type ArgumentTypes<F extends GenericFunction> = F extends (...args: infer A) => unknown ? A : never;
 
-type Constructor<T = {}> = new (...args: any[]) => T;
+type Constructor<T = unknown> = new (...args: any[]) => T;
 
-type FC<T={}> = React.FC<T>
+interface FC<P = Record<string, unknown>, Children = React.ReactNode | null> {
+  (props: P & { children?: Children }, context?: unknown): JSX.Element;
+  propTypes?: React.WeakValidationMap<P>;
+  contextTypes?: React.ValidationMap<unknown>;
+  defaultProps?: Partial<P>;
+  displayName?: string;
+}
+
 type JSX = React.ReactNode

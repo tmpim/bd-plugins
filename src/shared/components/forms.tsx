@@ -43,17 +43,35 @@ export type FormTags = {
     LABEL: "label"
 };
 
-// TODO: Remove any
-const formComponents: any = BdApi.findModuleByProps("FormSection", "FormText");
-export const FormDivider: React.FC<{ className?: string }> = formComponents.FormDivider;
+// TODO: Type these
+const formComponents: {
+    FormText: React.FC<{
+        tag?: FormTags[keyof FormTags],
+        className?: string,
+        align?: "left" | "center" | "right"
+        disabled?: boolean
+        style?: Partial<CSSStyleDeclaration>
+    }>
+    FormTitle: React.FC<{
+        className?: string
+        disabled?: boolean
+        required?: boolean
+        tag?: FormTags[keyof FormTags]
+        faded?: boolean
+        error?: React.ReactNode
+    }>
+    FormSection: unknown
+    FormItem: unknown
+    FormNotice: unknown
+    FormNoticeImagePositions: unknown
+    FormNoticeTypes: unknown
+    FormTextTypes: unknown
+    FormTitleTags: unknown
+    FormDivider: React.FC<{ className?: string }>
+} = BdApi.findModuleByProps("FormSection", "FormText");
+export const FormDivider = formComponents.FormDivider;
 
-export const FormText: React.FC<{
-    tag?: FormTags[keyof FormTags],
-    className?: string,
-    align?: "left" | "center" | "right"
-    disabled?: boolean
-    style?: Partial<CSSStyleDeclaration>
-}> = formComponents.FormText;
+export const FormText = formComponents.FormText;
 
 
 /*
@@ -62,6 +80,7 @@ type: "SELECT" | "SLIDER" | "SWITCH" | "TEXTINPUT"
 
 const NativeSelect = BdApi.findModuleByDisplayName("SelectTempWrapper");
 const NativeText = BdApi.findModuleByDisplayName("TextInput");
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const NativeButton: any = BdApi.findModuleByProps("Colors", "Hovers", "Looks");
 const NativeSlider = BdApi.findModuleByDisplayName("Slider");
 const NativeSwitch = BdApi.findModuleByDisplayName("Switch");
@@ -118,6 +137,7 @@ var d = function(e) {
 export const PanelFormItem: React.FC<{
     label: string
     basis?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     childProps?: any // TODO: Specialize this
     disabled?: boolean
     className?: string
@@ -161,7 +181,7 @@ export const PanelFormItem: React.FC<{
     {
         type: "File"
         value?: string
-        buttonProps?: any
+        buttonProps?: Record<string, unknown>
         filter?: Electron.FileFilter[]
         onChange?: (x: string) => void
     }
@@ -180,40 +200,40 @@ export const PanelFormItem: React.FC<{
                 props.onChange?.(path);
             }
         }
-    }
+    };
 
     let control;
     switch (props.type) {
-        case "Select":
-            control = <NativeSelect {...props.childProps} {...objectWithoutProperties(props, ["type"])}/>
-            break;
-        case "Switch":
-            control =
-                (<Flex direction={Flex.Direction.HORIZONTAL_REVERSE}>
-                    <NativeSwitch {...props.childProps} {...objectWithoutProperties(props, ["type"])}/>
-                </Flex>);
-            break;
-        case "Slider":
-            control = <NativeSlider {...props.childProps} {...objectWithoutProperties(props, ["type"])}
-                            onValueChange={props.onChange}>{props.children}</NativeSlider>
-            break;
-        case "TextInput":
-            control = <NativeText {...props.childProps} {...objectWithoutProperties(props, ["type"])}/>
-            break;
-        case "File":
-            control = (<Flex>
-                <Flex.Child>
-                    <div>
-                        <NativeText {...props.childProps} {...objectWithoutProperties(props, ["type"])}/>
-                    </div>
-                </Flex.Child>
-                <NativeButton onClick={selectFile}
-                    look={NativeButton.Looks.FILLED} {...props.buttonProps}
-                    disabled={props.disabled}>Browse File</NativeButton>
-            </Flex>)
-            break;
-        default:
-            console.error("Invalid control type", props.type);
+    case "Select":
+        control = <NativeSelect {...props.childProps} {...objectWithoutProperties(props, ["type"])}/>;
+        break;
+    case "Switch":
+        control =
+            (<Flex direction={Flex.Direction.HORIZONTAL_REVERSE}>
+                <NativeSwitch {...props.childProps} {...objectWithoutProperties(props, ["type"])}/>
+            </Flex>);
+        break;
+    case "Slider":
+        control = <NativeSlider {...props.childProps} {...objectWithoutProperties(props, ["type"])}
+            onValueChange={props.onChange}>{props.children}</NativeSlider>;
+        break;
+    case "TextInput":
+        control = <NativeText {...props.childProps} {...objectWithoutProperties(props, ["type"])}/>;
+        break;
+    case "File":
+        control = (<Flex>
+            <Flex.Child>
+                <div>
+                    <NativeText {...props.childProps} {...objectWithoutProperties(props, ["type"])}/>
+                </div>
+            </Flex.Child>
+            <NativeButton onClick={selectFile}
+                look={NativeButton.Looks.FILLED} {...props.buttonProps}
+                disabled={props.disabled}>Browse File</NativeButton>
+        </Flex>);
+        break;
+    default:
+        console.error("Invalid control type", props.type);
     }
 
     return (
@@ -230,14 +250,7 @@ export const PanelFormItem: React.FC<{
     );
 };
 
-export const FormTitle: React.FC<{
-    className?: string
-    disabled?: boolean
-    required?: boolean
-    tag?: FormTags[keyof FormTags]
-    faded?: boolean
-    error?: React.ReactNode
-}> = formComponents.FormTitle;
+export const FormTitle = formComponents.FormTitle;
 
 // TODO: Type the rest of these
 export const FormItem: unknown = formComponents.FormItem;

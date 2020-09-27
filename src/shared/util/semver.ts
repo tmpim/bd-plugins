@@ -12,7 +12,7 @@ export class SemVer {
         [this.major, this.minor, this.revision] = parts.slice(1).map(n => +n);
     }
 
-    eq(other: SemVer) {
+    eq(other: SemVer): boolean {
         return (
             this.major    == other.major &&
             this.minor    == other.minor &&
@@ -20,7 +20,7 @@ export class SemVer {
         );
     }
 
-    gt(other: SemVer) {
+    gt(other: SemVer): boolean {
         return (
             this.major    > other.major ||
             this.minor    > other.minor ||

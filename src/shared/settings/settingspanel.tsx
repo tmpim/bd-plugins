@@ -5,7 +5,7 @@ import { BdPlugin } from "@type/BdPlugin";
 import styles from "./settingspanel.scss";
 import { Margins } from "@shared/styles/discordclasses";
 
-export function createSettingsPanel(plugin: BdPlugin, children: React.ReactNode) {
+export function createSettingsPanel(plugin: BdPlugin, children: React.ReactNode): HTMLElement {
     addCommonCSS("settings-panel", styles);
 
     const container = document.createElement("div");
@@ -18,7 +18,7 @@ export function createSettingsPanel(plugin: BdPlugin, children: React.ReactNode)
                 {children}
             </SettingsPanel>
         </DCContextProvider>
-    , container);
+        , container);
 
     return container;
 }
@@ -37,7 +37,7 @@ export const DCContextProvider: React.FC = (props) => {
             <Layer.AppLayerContainer/>
         </Layer.AppLayerProvider>
     );
-}
+};
 
 export const SettingsPanel: React.FC<{
     title: string
@@ -48,9 +48,9 @@ export const SettingsPanel: React.FC<{
                 <FormTitle className="tlib-title" tag={"h2"}>{props.title}</FormTitle>
             </Flex>
             <FormDivider className={`${Margins.marginBottom8} ${Margins.marginTop4}`}/>
-            <Flex className={`tlib-settingsinner`} direction={Flex.Direction.VERTICAL} grow={1}>
+            <Flex className={"tlib-settingsinner"} direction={Flex.Direction.VERTICAL} grow={1}>
                 {props.children}
             </Flex>
         </Flex>
     );
-}
+};

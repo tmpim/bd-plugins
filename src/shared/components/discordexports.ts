@@ -4,9 +4,13 @@ export const Markdown: FC = /*#__PURE__*/ BdApi.findModuleByDisplayName("Markdow
 export const Tooltip: FC<{
     text: string
     hideOnClick?: boolean
-    position: "top" | "bottom" | "left" | "right"
+    position?: "top" | "bottom" | "left" | "right"
     color?: DiscordComponentColor
     delay?: number
     forceOpen?: boolean
     className?: string
-}>  = /*#__PURE__*/ BdApi.findModuleByDisplayName("Tooltip");
+}, (props: {
+    onMouseEnter: () => void,
+    onMouseLeave: () => void,
+    onClick: () => void,
+}) => React.ReactNode>  = /*#__PURE__*/ BdApi.findModuleByDisplayName("Tooltip");

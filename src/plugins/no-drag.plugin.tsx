@@ -12,7 +12,7 @@ import { mixinChangeLog } from "@shared/mixins/changelog";
 import { mixinUpdater } from "@shared/mixins/updater";
 
 export default mixinChangeLog(mixinUpdater(class NoDrag extends PatchManager implements BdPlugin {
-    private shouldBlockDrags: boolean = true;
+    private shouldBlockDrags = true;
 
     settings = defineSettings(this, {
         reset_delay: 2
@@ -62,7 +62,7 @@ export default mixinChangeLog(mixinUpdater(class NoDrag extends PatchManager imp
     }
 
     getSettingsPanel(): HTMLElement {
-        return createSettingsPanel(this, <this.SettingsPane plugin={this}/>)
+        return createSettingsPanel(this, <this.SettingsPane plugin={this}/>);
     }
 
     patchPermissions() {
@@ -88,7 +88,7 @@ export default mixinChangeLog(mixinUpdater(class NoDrag extends PatchManager imp
         if (!this.shouldBlockDrags && +this.settings.reset_delay > 0) {
             this.enableTimeout = setTimeout(() => {
                 this.shouldBlockDrags = true;
-                BdApi.showToast("Channel Reordering automatically disabled.")
+                BdApi.showToast("Channel Reordering automatically disabled.");
             }, +this.settings.reset_delay * 60 * 1000);
         }
     }

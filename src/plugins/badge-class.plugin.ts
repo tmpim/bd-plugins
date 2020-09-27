@@ -3,11 +3,10 @@ import { BdPlugin } from "@type/BdPlugin";
 import { mixinUpdater } from "@shared/mixins/updater";
 import { mixinChangeLog } from "@shared/mixins/changelog";
 
-export default mixinChangeLog(mixinUpdater(
-class BadgeClasses implements BdPlugin {
+export default mixinChangeLog(mixinUpdater(class BadgeClasses implements BdPlugin {
     static cssID = "MentionDotCSS";
 
-    ChannelItem: any;
+    ChannelItem: React.ComponentClass;
     ChannelUtils: {
         getMentionCount(channelId: string): number;
     }
@@ -41,7 +40,7 @@ class BadgeClasses implements BdPlugin {
         this.cancelRenderPatch = BdApi.monkeyPatch(this.ChannelItem.prototype,
             "renderUnread", { after: (data) => {
                 if (data.returnValue) {
-                    const channel = (data.thisObject as any).props.channel;
+                    const channel = (data.thisObject as {props: {channel: {id: string}}}).props.channel;
                     if (this.ChannelUtils.getMentionCount(channel.id) > 0) {
                         data.returnValue.props.className += " " + "da-unread-mention";
                     }

@@ -50,7 +50,7 @@ export default mixinChangeLog(mixinUpdater(class ThemeIpc implements BdPlugin {
         }
 
         socket.on("data", (data) => {
-            this.settingsModule?.updateRemoteSettings({theme: data.toString('ascii').trim()})
+            this.settingsModule?.updateRemoteSettings({theme: data.toString("ascii").trim()})
                 .then(() => tryWrite("OK"))
                 .catch((e) => tryWrite("ERROR: " + JSON.stringify(e.errors)));
         });
@@ -60,16 +60,16 @@ export default mixinChangeLog(mixinUpdater(class ThemeIpc implements BdPlugin {
         console.error(error);
 
         switch (error.code) {
-            case "EACCES":
-                return BdApi.showToast("Unable to create IPC Socket, ThemeIPC will not work.", { timeout: 5000, type: "error" });
+        case "EACCES":
+            return BdApi.showToast("Unable to create IPC Socket, ThemeIPC will not work.", { timeout: 5000, type: "error" });
 
-            case "EADDRINUSE":
-                unlinkSync("/tmp/discord_theme");
-                this.ipcServer?.listen("/tmp/discord_theme");
-                break;
+        case "EADDRINUSE":
+            unlinkSync("/tmp/discord_theme");
+            this.ipcServer?.listen("/tmp/discord_theme");
+            break;
 
-            default:
-                return BdApi.showToast("An error occurred in ThemeIPC server, it may or may not still work.", { timeout: 5000, type: "error" });
+        default:
+            return BdApi.showToast("An error occurred in ThemeIPC server, it may or may not still work.", { timeout: 5000, type: "error" });
         }
     }
 }));

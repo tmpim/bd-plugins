@@ -1,4 +1,4 @@
-export function addCommonCSS(id: string, css: string) {
+export function addCommonCSS(id: string, css: string): void {
     const cssid = `commoncss-${id}`;
     BdApi.clearCSS(cssid);
 

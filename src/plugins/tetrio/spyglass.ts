@@ -1,11 +1,11 @@
-import logger from "@shared/base/logger"
+import { logger } from "@shared/base/logger";
 
 let shouldConnect = false;
 let idCounter = 0;
 
-const listeners: { id: number; func: (msg: any) => void; }[] = [];
+const listeners: { id: number; func: (msg: unknown) => void; }[] = [];
 let ws: WebSocket | undefined;
-export function connect() {
+export function connect(): void {
     if (ws) return;
     shouldConnect = true;
     ws = new WebSocket("wss://spyglass.tmpim.pw/subscribe");
@@ -30,23 +30,23 @@ export function connect() {
     };
 }
 
-export function close() {
+export function close(): void {
     logger.log("Shutting down spyglass socket.");
     shouldConnect = false;
     ws?.close();
 }
 
-export function registerListener(func: (msg: any) => void) {
+export function registerListener(func: (msg: unknown) => void): number {
     const id = idCounter++;
     listeners.push({ id, func });
     return id;
 }
 
-export function removeListener(rid: number) {
+export function removeListener(rid: number): void {
     const idx = listeners.findIndex(({ id }) => id === rid);
     if (idx >= 0) {
         listeners.splice(idx, 1);
     } else {
-        console.warn("Could not unregister ws listener!!!")
+        console.warn("Could not unregister ws listener!!!");
     }
 }

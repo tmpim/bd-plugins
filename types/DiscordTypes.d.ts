@@ -52,6 +52,21 @@ export namespace Discord {
         phone?: null;
     }
 
+    export interface Guild {
+        afkChannelId: string | null
+        afkTimeout: number
+        description: string | null
+        id: string
+        joinedAt: Date
+        maxMembers: number
+        maxVideoChannelUsers: number
+        mfaLevel: number
+        name: string
+        ownerId: string
+        roles: unknown
+        systemChannelId: string
+    }
+
     export interface Channel {
         id: string;
         type: number;
@@ -59,6 +74,7 @@ export namespace Discord {
         topic: string;
         position: number;
         guild_id: string;
+        guild: Guild;
         recipients?: (null)[] | null;
         rawRecipients?: (null)[] | null;
         permissionOverwrites: PermissionOverwrites;
@@ -78,8 +94,8 @@ export namespace Discord {
     }
 
       export type PermissionOverwrites =
-        {[p: string]: {id: string, type: number, allow: any, deny: any}};
+        {[p: string]: {id: string, type: number, allow: number, deny: number}};
 
 
-      export interface Nicks {}
+      export type Nicks = unknown;
 }

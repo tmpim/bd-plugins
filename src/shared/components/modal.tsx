@@ -20,13 +20,13 @@ const NativeModalUtils: {
         factory: (props: ModalProps) => React.ReactNode,
         hooks: { onCloseRequest: GenericFunction }
     ): void
-} = BdApi.findModuleByProps("openModal", "hasModalOpen")
+} = BdApi.findModuleByProps("openModal", "hasModalOpen");
 
 const ModalComponents: {
-    ModalRoot: any,
-    ModalHeader: any,
-    ModalContent: any,
-    ModalFooter: any
+    ModalRoot: FC,
+    ModalHeader: FC,
+    ModalContent: FC,
+    ModalFooter: FC
 } = BdApi.findModuleByProps("ModalRoot", "ModalContent");
 
 export interface ModalConfig {
@@ -39,23 +39,28 @@ export interface ModalConfig {
     headerClassName?: string
 }
 
-export function openModal(config: ModalConfig, jsx?: JSX) {
+export function openModal(config: ModalConfig, jsx?: JSX): void {
     let modalProps: ModalProps | undefined;
     const closeModal = () => modalProps?.onClose();
 
     NativeModalUtils.openModal(props => {
         modalProps = props;
-    return <ModalWrapper transitionState={props.transitionState} {...config}>{jsx}</ModalWrapper>
+        return <ModalWrapper transitionState={props.transitionState} {...config}>{jsx}</ModalWrapper>;
     }, {
         onCloseRequest: closeModal
-    })
+    });
 }
 
-const identityComponent: () => FC = () => (props) => { return <>{props.children}</> }
+const identityComponent: (name: string) => FC = () => {
+    const component: FC = (props) => { return <>{props.children}</>; };
+    component.displayName = name;
 
-export const ModalHeader = identityComponent();
-export const ModalContent = identityComponent();
-export const ModalFooter = identityComponent();
+    return component;
+};
+
+export const ModalHeader = identityComponent("ModalHeader");
+export const ModalContent = identityComponent("ModalContent");
+export const ModalFooter = identityComponent("ModalFooter");
 
 const ModalWrapper: React.FC<ModalConfig & {
     transitionState: TransitionState
@@ -106,4 +111,4 @@ const ModalWrapper: React.FC<ModalConfig & {
             <ModalComponents.ModalFooter>{footerNode}</ModalComponents.ModalFooter>
         </ModalComponents.ModalRoot>
     );
-}
+};

@@ -3,24 +3,18 @@ import { CancelPatch } from "@type/BdApi";
 import { Discord } from "@type/DiscordTypes";
 import { mixinChangeLog } from "@shared/mixins/changelog";
 import { mixinUpdater } from "@shared/mixins/updater";
+import { Tooltip } from "@shared/components/discordexports";
 
-export default mixinChangeLog(mixinUpdater(
-class AddQuote implements BdPlugin {
+export default mixinChangeLog(mixinUpdater(class AddQuote implements BdPlugin {
     cancelRenderPatch: CancelPatch;
     cancelComparePatch: CancelPatch;
-    stopped: boolean = true;
+    stopped = true;
 
-    TextBoxModule: any;
+    TextBoxModule: {default: React.ComponentClass};
     nativeTextBox: React.ComponentClass;
 
-    RichDocumentModule: {
-        deserialize(s: string): any;
-    };
-
-    Tooltip: any;
     ButtonComponents: {
-        Separator: any,
-        Button: any
+        Button: FC
     };
     ButtonClasses: {
         container: string,
@@ -28,16 +22,7 @@ class AddQuote implements BdPlugin {
         isHeader: string
     };
 
-    QuoteIcon: any;
-
-    MessageUtils: {
-        sendMessage(channelId: string, message: {
-            content: string,
-            tts: boolean,
-            invalidEmojis: Array<any>,
-            validNonShortcutEmojis: Array<any>
-        }): Promise<any>;
-    };
+    QuoteIcon: FC;
 
     MessageStore: {
         getMessages(channelId: string): {
@@ -60,8 +45,7 @@ class AddQuote implements BdPlugin {
     start(): void {
         this.stopped = false;
 
-        this.Tooltip = BdApi.findModuleByDisplayName("Tooltip");
-        this.ButtonComponents = BdApi.findModuleByProps("Separator", "Button")
+        this.ButtonComponents = BdApi.findModuleByProps("Separator", "Button");
         this.ButtonClasses = BdApi.findModuleByProps("container", "icon", "isHeader");
 
         // TODO: Find a better way to reference this module
@@ -75,9 +59,7 @@ class AddQuote implements BdPlugin {
             return;
         }
 
-        this.MessageUtils = BdApi.findModuleByProps("sendMessage");
         this.MessageStore = BdApi.findModuleByProps("getMessage", "getMessages");
-        this.RichDocumentModule = BdApi.findModuleByProps("deserialize", "serialize");
 
         this.performHookPatch();
         this.injectCSS();
@@ -92,66 +74,11 @@ class AddQuote implements BdPlugin {
         this.cleanupCSS();
     }
 
-    renderCache: Set<string> = new Set();
+
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     currentTextBox: any;
     performHookPatch() {
         const PanelModule: any = BdApi.findModuleByProps("useConnectedUtilitiesProps");
-
-        // The compare function likely doesnt exist
-        if (!PanelModule.default.compare) {
-            function obj_is(x: any, y: any) {
-                return (
-                    (x === y && (x !== 0 || 1 / x === 1 / y)) || (x !== x && y !== y)
-                );
-            }
-
-            const hasOwnProperty = Object.prototype.hasOwnProperty;
-
-            PanelModule.default.compare = function (objA: any, objB: any) {
-                if (obj_is(objA, objB)) {
-                    return true;
-                }
-
-                if (
-                    typeof objA !== 'object' ||
-                    objA === null ||
-                    typeof objB !== 'object' ||
-                    objB === null
-                ) {
-                    return false;
-                }
-
-                const keysA = Object.keys(objA);
-                const keysB = Object.keys(objB);
-
-                if (keysA.length !== keysB.length) {
-                    return false;
-                }
-
-                // Test for A's keys different from B.
-                for (let i = 0; i < keysA.length; i++) {
-                    if (
-                        !hasOwnProperty.call(objB, keysA[i]) ||
-                        !obj_is(objA[keysA[i]], objB[keysA[i]])
-                    ) {
-                        return false;
-                    }
-                }
-
-                return true;
-            };
-        }
-
-        this.cancelComparePatch = BdApi.monkeyPatch(PanelModule.default, "compare", {
-            after: (data) => {
-                const r = data.returnValue ?? true;
-                if (r) {
-                    const message = data.methodArguments[1].message;
-                    data.returnValue = this.renderCache.has(message.id);
-                    this.renderCache.add(message.id);
-                }
-            },
-        });
 
         this.cancelRenderPatch = BdApi.monkeyPatch(PanelModule.default, "type", {
             after: (data) => {
@@ -192,39 +119,40 @@ class AddQuote implements BdPlugin {
                 return super.render();
             }
 
-            handleTabOrEnterOverride() {
+            handleTabOrEnterOverride(...args: any[]) {
                 const channel = this.props.channel.id;
                 delete self.selectedMessages[channel];
                 self.clearClasses();
 
-                return this.originalHandleTabOrEnter(arguments);
+                return this.originalHandleTabOrEnter(...args);
             }
-        }
+        } as any;
     }
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
-    filterProperties(obj: any, props: string[]) {
+    filterProperties(obj: Record<string, unknown>, props: string[]) {
         if (obj == null) return {};
 
-        const result: any = {};
+        const result: typeof obj = {};
         const keys = Object.keys(obj);
         for (let i = 0; i < keys.length; i++) {
             const n = keys[i];
             props.indexOf(n) >= 0 || (result[n] = obj[n]);
         }
 
-        return result
+        return result;
     }
 
     renderIconButton(props: {
         label: string,
         icon: React.ComponentClass<{className: string}>
             | React.FunctionComponent<{className: string}>,
-        channel: any,
-        message: any,
-        onClick: (channel: any, message: any, e: MouseEvent) => void,
+        channel: unknown,
+        message: unknown,
+        onClick: (channel: unknown, message: unknown, e: MouseEvent) => void,
         key?: string,
         disabled: boolean
-    } & {[p: string]: any}) {
+    }) {
         const Button = this.ButtonComponents.Button;
         const ButtonClasses = this.ButtonClasses;
 
@@ -241,12 +169,16 @@ class AddQuote implements BdPlugin {
             return null;
         }
 
-        return BdApi.React.createElement(this.Tooltip, {
+        return BdApi.React.createElement(Tooltip, {
             text: label,
             hideOnClick: true,
             key: key
-        }, (function(props: any) {
-            var onMouseEnter = props.onMouseEnter
+        }, (function(props: {
+            onMouseEnter: () => void,
+            onMouseLeave: () => void,
+            onClick: () => void,
+        }) {
+            const onMouseEnter = props.onMouseEnter
                 , onMouseLeave = props.onMouseLeave
                 , btnOnClick = props.onClick;
             return BdApi.React.createElement(Button, Object.assign({
@@ -254,15 +186,14 @@ class AddQuote implements BdPlugin {
                 onMouseLeave: onMouseLeave,
                 onClick: function(e: MouseEvent) {
                     null != btnOnClick && btnOnClick(),
-                    onClick(channelRef, messageRef, e)
+                    onClick(channelRef, messageRef, e);
                 },
                 "aria-label": label,
                 disabled: disabled
             }, passthroughProps), BdApi.React.createElement(iconComponent, {
                 className: ButtonClasses.icon
-            }))
-        }
-        ));
+            }));
+        }));
     }
 
     sortSnowflakes(...snowflakes: string[]) {
@@ -320,12 +251,12 @@ class AddQuote implements BdPlugin {
     }
 
     static RANGE_RE = /^!addquote (\d{4,})(\+\d+)?$/;
-    static REL_RANGE_RE = /^!(?:addquote |addquote)(?:\~(\d+))?(\+\d+)?$/;
+    static REL_RANGE_RE = /^!(?:addquote |addquote)(?:~(\d+))?(\+\d+)?$/;
     parseRange(channel: string, text: string) {
         const fail = () => {
             delete this.selectedMessages[channel];
             this.clearClasses();
-        }
+        };
 
         let snowflake, length;
 
@@ -355,12 +286,12 @@ class AddQuote implements BdPlugin {
             }
         }
 
-        let firstMessage = messages.get(snowflake);
+        const firstMessage = messages.get(snowflake);
         if (!firstMessage) {
             delete this.selectedMessages[channel];
             this.clearClasses();
             return;
-        };
+        }
 
         let endMessage = firstMessage;
         if (length) {
@@ -417,7 +348,7 @@ class AddQuote implements BdPlugin {
             this.selectedMessages[channel.id] = newRange = {
                 first: message.id,
                 second: message.id
-            }
+            };
         } else {
             newRange = this.selectedMessages[channel.id];
             newRange.first = newRange.second;
@@ -441,16 +372,16 @@ class AddQuote implements BdPlugin {
     // Record of channel id -> message range
     selectedMessages: Record<string, { first: string, second: string }> = {};
 
-    overiddenMenuItems: any;
-    performMenuPatch(MenuActions: React.FunctionComponent<any>): Function {
+    overiddenMenuItems: React.ComponentClass;
+    performMenuPatch(MenuActions: FC<unknown>): React.ComponentClass {
         if (this.overiddenMenuItems) return this.overiddenMenuItems;
         const self = this;
 
-        this.overiddenMenuItems = class NewMenu extends BdApi.React.Component {
+        this.overiddenMenuItems = class NewMenu extends BdApi.React.Component<{channel: unknown, message: unknown}> {
             render() {
-                return BdApi.React.createElement<any>(function(props) {
+                return BdApi.React.createElement<{channel: unknown, message: unknown}>(function(props) {
                     const renderValue = MenuActions(props);
-                    const children: any[] = renderValue?.props.children ?? [];
+                    const children: React.ReactNode[] = renderValue?.props.children ?? [];
                     children.splice(children.length - 2, 0,
                         self.renderIconButton({
                             channel: props.channel,
@@ -464,15 +395,15 @@ class AddQuote implements BdPlugin {
                     return renderValue;
                 }, this.props);
             }
-        }
+        };
 
         return this.overiddenMenuItems;
     }
 
-    cssNode: string = "pluginAddQuoteCSS"
+    static cssNode = "pluginAddQuoteCSS"
     injectCSS() {
         // .da-cozyMessage
-        BdApi.injectCSS(this.cssNode, `
+        BdApi.injectCSS(AddQuote.cssNode, `
             .addquote-selected {
                 background: rgba(250, 166, 26, 0.3) !important;
             }
@@ -497,7 +428,7 @@ class AddQuote implements BdPlugin {
 
     cleanupCSS() {
         this.clearClasses();
-        BdApi.clearCSS(this.cssNode);
+        BdApi.clearCSS(AddQuote.cssNode);
     }
 
     clearClasses() {
@@ -510,8 +441,8 @@ class AddQuote implements BdPlugin {
         for (const message of collection) {
             if (message instanceof HTMLElement) {
                 message.classList.remove("addquote-selected");
-                message.classList.remove("addquote-startGroup")
-                message.classList.remove("addquote-endGroup")
+                message.classList.remove("addquote-startGroup");
+                message.classList.remove("addquote-endGroup");
             }
         }
     }

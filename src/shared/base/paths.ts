@@ -9,9 +9,9 @@ else dataPath = process.env.XDG_CONFIG_HOME ? process.env.XDG_CONFIG_HOME : path
 dataPath = path.join(dataPath, "BetterDiscord");
 
 export const pluginDirectory = path.join(dataPath, "plugins");
-export const assetsPath = (plugin: BdPlugin) => path.join(dataPath, "plugins", "assets", plugin.getName().toLowerCase())
+export const assetsPath = (plugin: BdPlugin): string => path.join(dataPath, "plugins", "assets", plugin.getName().toLowerCase());
 
-export function pluginNameToFilename(name: string) {
+export function pluginNameToFilename(name: string): string {
     return name
         .split(/[\s-]/).join("")
         .replace(/(?!^)(?<![A-Z])[A-Z]/g, l => "-" + l)

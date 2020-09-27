@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Type definitions for Electron 10.1.1
 // Project: http://electronjs.org/
 // Definitions by: The Electron Team <https://github.com/electron/electron>
@@ -15002,3 +15003,4 @@ Takes a V8 heap snapshot and saves it to `filePath`.
     readonly chrome: string;
   }
 }
+/* eslint-enable */

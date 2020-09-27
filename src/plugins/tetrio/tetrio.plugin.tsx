@@ -14,10 +14,9 @@ import { useSettings } from "@shared/settings/hook";
 import { useImageAsset } from "@shared/util/hooks";
 import { mixinUpdater } from "@shared/mixins/updater";
 import { mixinChangeLog } from "@shared/mixins/changelog";
-const { useState, useEffect, useMemo } = React;
+const { useState, useEffect } = React;
 
-export default mixinChangeLog(mixinUpdater(
-class Tetrio implements BdPlugin {
+export default mixinChangeLog(mixinUpdater(class Tetrio implements BdPlugin {
     static cssID = "TetrioCSS";
     assetsPath = assetsPath(this);
 
@@ -62,10 +61,8 @@ class Tetrio implements BdPlugin {
 
         BdApi.ReactDOM.render(
             <this.LobbyPopup plugin={this}/>,
-            document.getElementById('tetrio-plgn-container')
+            document.getElementById("tetrio-plgn-container")
         );
-
-        (window as any).tethook = this;
     }
 
     stop(): void {
@@ -126,9 +123,7 @@ class Tetrio implements BdPlugin {
                     // Give the user a sample
                     props.plugin.playNotification();
                 }}
-                onValueRender={(e) => {
-                    return e.toFixed(0) + "%"
-                }}
+                onValueRender={(e) => e.toFixed(0) + "%"}
             />
 
             <PanelFormItem
@@ -181,7 +176,7 @@ class Tetrio implements BdPlugin {
 
     isStatusDND() {
         const SettingsModule = BdApi.findModuleByProps("status", "nativePhoneIntegrationEnabled");
-        return SettingsModule.status == "dnd"
+        return SettingsModule.status == "dnd";
     }
 
     lastSound?: HTMLAudioElement;
@@ -219,6 +214,8 @@ class Tetrio implements BdPlugin {
 
         useEffect(
             () => spyglass.removeListener.bind(this, spyglass.registerListener((msg) => {
+                if (typeof msg !== "string") return;
+
                 // We recieved an update from spyglass
                 const { reporters } = JSON.parse(msg);
                 if (reporters.tetrio) {
@@ -251,7 +248,7 @@ class Tetrio implements BdPlugin {
         const closeMe = () => {
             setClosing(true);
             setTimeout(() => setShown(false), 500);
-        }
+        };
 
         const openTetrio = () => {
             if (props.plugin.settings.launchDesktop) {
@@ -262,7 +259,7 @@ class Tetrio implements BdPlugin {
                 window.open(url);
             }
             closeMe();
-        }
+        };
 
         const tetrioLogo = useImageAsset(props.plugin, "tetrio.png");
 

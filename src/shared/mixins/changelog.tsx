@@ -1,4 +1,4 @@
-import React from "@shared/base/discordreact"
+import React from "@shared/base/discordreact";
 import { pluginNameToFilename } from "@shared/base/paths";
 import { BdPlugin } from "@type/BdPlugin";
 import { ChangelogClasses } from "@shared/styles/discordclasses";
@@ -15,7 +15,7 @@ type MarkdownText = string;
 
 // Types for the changelog json files
 export interface ChangeSet {
-    type: "added" | "fixed" | "improved" | "progress";
+    type: "added" | "fixed" | "improved" | "progress" | string;
     content: MarkdownText
 }
 
@@ -33,7 +33,7 @@ function parseChangelogFromMarkdown(targetVersion: string, markdown: string): Ch
             const version = (line.match(/^#(.+)/)?.[1] ?? "").trim();
             if (version == targetVersion) {
                 activeSet = {
-                    type: "" as any,
+                    type: "",
                     content: ""
                 };
 
@@ -50,7 +50,7 @@ function parseChangelogFromMarkdown(targetVersion: string, markdown: string): Ch
 
                 const section = (line.match(/^##(.+)/)?.[1] ?? "").trim();
                 activeSet = {
-                    type: section as any,
+                    type: section,
                     content: ""
                 };
 
@@ -70,7 +70,7 @@ function parseChangelogFromMarkdown(targetVersion: string, markdown: string): Ch
 export function mixinChangeLog<P extends Constructor<BdPlugin>>(plugin: P,
     logRoot = "https://raw.githubusercontent.com/tmpim/bd-plugins/master/changelogs/",
     logFileName?: string
-) {
+): Constructor<BdPlugin> {
     return class ChangeLoggedPlugin extends plugin {
         private fileName = logFileName || `${pluginNameToFilename(super.getName())}.md`
 
@@ -105,7 +105,7 @@ export function mixinChangeLog<P extends Constructor<BdPlugin>>(plugin: P,
         showChangelogModal(title: string, changelog: ChangeLogVersion, footer?: string) {
             const logItems: JSX[] = [];
             for (const section of changelog.changes) {
-                const typeClass = ChangelogClasses[section.type];
+                const typeClass = ChangelogClasses[section.type as Exclude<typeof section.type, string>];
                 if (section.type.length) {
                     logItems.push(
                         <h1 className={clazz(typeClass, ChangelogClasses.marginTop)}>
@@ -129,7 +129,7 @@ export function mixinChangeLog<P extends Constructor<BdPlugin>>(plugin: P,
 
             const renderFooter = footer && (() => <Markdown>{footer}</Markdown>);
 
-            ModalStack.push((props: any) =>
+            ModalStack.push((props: unknown) =>
                 <Changelog
                     className={ChangelogClasses.container}
                     selectable={true}
@@ -138,7 +138,7 @@ export function mixinChangeLog<P extends Constructor<BdPlugin>>(plugin: P,
                     {...props}
                 >
                     {logItems}
-                </Changelog>)
+                </Changelog>);
         }
-    }
+    };
 }

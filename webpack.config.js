@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const webpack = require("webpack");
 const glob = require("glob");
 const path = require("path");
@@ -6,8 +8,8 @@ const TerserPlugin = require("terser-webpack-plugin");
 const toCamel = (s) => {
     return s.replace(/((?:[-_]|^)[a-z])/ig, ($1) => {
         return $1.toUpperCase()
-            .replace('-', '')
-            .replace('_', '');
+            .replace("-", "")
+            .replace("_", "");
     });
 };
 
@@ -16,13 +18,13 @@ module.exports = {
     target: "electron-preload",
 
     externals: {
-        electron: `electron`,
+        electron: "electron",
     },
 
     entry: glob.sync("./src/**/*.plugin.ts*").reduce((acc, path) => {
         const entry = path.match(/.+\/(.+?).plugin/)[1];
-        acc[entry] = path
-        return acc
+        acc[entry] = path;
+        return acc;
     }, {}),
 
     output: {
@@ -41,7 +43,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/i,
-                use: ['raw-loader', 'sass-loader'],
+                use: ["raw-loader", "sass-loader"],
             }
         ],
     },

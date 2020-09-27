@@ -19,7 +19,7 @@ const writeFile = promisify(writeFileCallback);
 
 export function mixinUpdater<P extends Constructor<BdPlugin>>(plugin: P,
     versionRoot = "https://bd.its-em.ma/"
-) {
+): Constructor<BdPlugin> {
     return class UpdaterPlugin extends plugin {
         static BannerID = "tlib-update-banner";
         private get __mount() {
@@ -121,13 +121,17 @@ export function mixinUpdater<P extends Constructor<BdPlugin>>(plugin: P,
             }
         }
 
-        UpdateBanner(this: any, props: {plugin: UpdaterPlugin}) {
+        UpdateBanner(this: unknown, props: {plugin: UpdaterPlugin}) {
             const { plugin } = props;
 
-            let tooltipProps: any;
-            useEffect(() => {setTimeout(() => {
+            let tooltipProps: {
+                onMouseEnter: () => void;
+                onMouseLeave: () => void;
+                onClick: () => void;
+            };
+            useEffect(() => (setTimeout(() => {
                 tooltipProps?.onMouseEnter();
-            })}, []);
+            }), undefined), []);
 
             return (
                 <div className="tlib-up-container">
@@ -141,21 +145,23 @@ export function mixinUpdater<P extends Constructor<BdPlugin>>(plugin: P,
                             text="Click to update!"
                             color="black"
                             hideOnClick={true}
-                        >{(props: any) => {
-                            tooltipProps = props;
+                        >
+                            {(props) => {
+                                tooltipProps = props;
 
-                            return <strong {...props}
-                                className="tlib-up-pluginname"
-                                onClick={() => (props.onClick(), plugin.__performUpdate())}
-                            >
-                                {plugin.getName()}
-                            </strong>
-                        }}</Tooltip>!
+                                return <strong {...props}
+                                    className="tlib-up-pluginname"
+                                    onClick={() => (props.onClick(), plugin.__performUpdate())}
+                                >
+                                    {plugin.getName()}
+                                </strong>;
+                            }}
+                        </Tooltip>!
                     </div>
                     <button className={NoticeClasses.closeButton} style={{zIndex: 102}}
                         onClick={plugin.__removeUpdateBanner.bind(plugin)}/>
                 </div>
             );
         }
-    }
+    };
 }

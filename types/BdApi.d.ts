@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
 
 Plugins: {}
@@ -55,8 +58,8 @@ unlinkJS: ƒ (e)
 // TypeScript Version: 2.8
 // Documentation: https://github.com/rauenzi/BetterDiscordApp/wiki/Creating-Plugins#bdapi
 
-import * as ReactInstance from 'react';
-import * as ReactDOMInstance from 'react-dom';
+import * as ReactInstance from "react";
+import * as ReactDOMInstance from "react-dom";
 
 declare global {
     const BdApi: typeof BdApiModule;

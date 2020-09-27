@@ -27,4 +27,4 @@ export const Text: React.FC<{
 }> & {
     Colors: TextColors,
     Sizes: TextSizes
-} = BdApi.findModuleByDisplayName("Text")
+} = BdApi.findModuleByDisplayName("Text");
