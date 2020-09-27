@@ -60,7 +60,6 @@ export function hookContextMenu<MenuType extends ContextMenuType>(
                         patchCancels.push(flexpatch(HostModule, "default", {
                             after(ctxcall) {
                                 if (ctxcall.returnValue) {
-                                    console.log(ctxcall.returnValue);
                                     hook({
                                         props: ctxcall.arguments[0],
                                         ctxMenuType: whichType,
