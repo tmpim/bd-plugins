@@ -16,7 +16,7 @@ export default mixinUpdater(mixinChangeLog(class SelfPresence extends PatchManag
 
     getName(): string { return "SelfPresence"; }
     getDescription(): string { return "Adds a button to channel headers to see your rich presence data."; }
-    getVersion(): string { return "0.0.1"; }
+    getVersion(): string { return "0.0.2"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {
@@ -26,7 +26,7 @@ export default mixinUpdater(mixinChangeLog(class SelfPresence extends PatchManag
         this.addPatch(flexpatch(hbar, "default", {
             after: (data) => {
                 if (data.returnValue) {
-                    const {channel, guild} = data.arguments[0].children[1].props;
+                    const {channel, guild} = data.arguments[0].children?.[1]?.props ?? {};
                     if (!channel || !guild) return;
 
                     this.injectIntoBar(data.returnValue, channel, guild);
