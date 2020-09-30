@@ -105,7 +105,7 @@ export function mixinChangeLog<P extends Constructor<BdPlugin>>(plugin: P,
         showChangelogModal(title: string, changelog: ChangeLogVersion, footer?: string) {
             const logItems: JSX[] = [];
             for (const section of changelog.changes) {
-                const typeClass = ChangelogClasses[section.type as Exclude<typeof section.type, string>];
+                const typeClass = ChangelogClasses[section.type as Exclude<typeof section.type, string>] ?? ChangelogClasses.added;
                 if (section.type.length) {
                     logItems.push(
                         <h1 className={clazz(typeClass, ChangelogClasses.marginTop)}>

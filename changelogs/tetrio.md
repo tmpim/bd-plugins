@@ -1,6 +1,6 @@
 # 0.0.2
 
-## changed
+## improved
 
 Popup now will close automatically when the player count drops to zero.
 
