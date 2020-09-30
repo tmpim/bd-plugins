@@ -45,7 +45,7 @@ export default mixinChangeLog(mixinUpdater(class Tetrio implements BdPlugin {
 
     getName(): string { return "Tetrio"; }
     getDescription(): string { return "Pops up a message when tmpim spyglass reports an active tetr.io lobby."; }
-    getVersion(): string { return "0.0.1"; }
+    getVersion(): string { return "0.0.2"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {
@@ -239,6 +239,9 @@ export default mixinChangeLog(mixinUpdater(class Tetrio implements BdPlugin {
                         }
 
                         setPlayerCount(tetData.users.length - 1); // minus 1 for Warma
+                        if ((tetData.users.length - 1) === 0 && shown) {
+                            closeMe();
+                        }
                     }
 
                     setUrl(tetData.url);
@@ -268,7 +271,7 @@ export default mixinChangeLog(mixinUpdater(class Tetrio implements BdPlugin {
                 <img src={tetrioLogo} onClick={openTetrio} />
                 <span className="tet-text" onClick={openTetrio}>
                     A tmpim TETR.IO lobby has started! <br />
-                    <span className="join">Click to Join ({playerCount} Players)</span>
+                    <span className="join">Click to Join ({playerCount} {playerCount === 1 ? "Player" : "Players"})</span>
                 </span>
                 <div className="tet-icon" onClick={closeMe}><CloseIcon /></div>
             </div>
