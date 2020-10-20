@@ -20,7 +20,7 @@ export default mixinChangeLog(mixinUpdater(class NoDrag extends PatchManager imp
 
     getName(): string { return "NoDrag"; }
     getDescription(): string { return "Adds a setting to disable reordering of channels/categories."; }
-    getVersion(): string { return "0.1.2"; }
+    getVersion(): string { return "0.1.3"; }
     getAuthor(): string { return "Emma"; }
 
     manageChannelsPermission = BdApi.findModuleByProps("Permissions").Permissions.MANAGE_CHANNELS;
@@ -28,7 +28,7 @@ export default mixinChangeLog(mixinUpdater(class NoDrag extends PatchManager imp
 
     start() {
         this.patchPermissions();
-        addContextMenuItems(this, ["GuildChannelList", "ChannelListTextChannel", "ChannelListVoiceChannel"],
+        addContextMenuItems(this, "reorder", ["GuildChannelList", "ChannelListTextChannel", "ChannelListVoiceChannel"],
             (e) => this.permissionsModule.can(this.manageChannelsPermission, e.props.guild) &&
                 <MenuGroup>
                     <MenuUncontrolledCheckboxItem

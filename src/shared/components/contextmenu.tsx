@@ -186,14 +186,33 @@ export function injectContextMenuItems(obj: React.ReactElement, ...items: React.
     }
 }
 
+export function findContextMenuItem(obj: React.ReactElement[], id: string): React.ReactElement | null {
+    for (const child of obj) {
+        if (child?.props?.id === id) {
+            return child;
+        } else if (child) {
+            const children = Array.isArray(child.props.children)
+                ? child.props.children : [child.props.children];
+            const recur = findContextMenuItem(children, id);
+            if (recur) return recur;
+        }
+    }
+
+    // Didn't find it
+    return null;
+}
+
 // Even higher level abstractions past here
 
 export function addContextMenuItems<MenuType extends ContextMenuType>(
     manager: PatchManager,
+    groupid: string,
     types: MenuType[],
     itemFactory: (e: OpenContextMenuEvent<MenuType>) => React.ReactElement
 ): void {
     manager.addPatch(hookContextMenu(types, (e) => {
-        injectContextMenuItems(e.ctxMenuObject, itemFactory(e));
+        if (!findContextMenuItem(e.ctxMenuObject.props.children, groupid)) {
+            injectContextMenuItems(e.ctxMenuObject, itemFactory(e));
+        }
     }));
 }
