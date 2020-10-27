@@ -20,7 +20,7 @@ export default mixinChangeLog(mixinUpdater(class NoDrag extends PatchManager imp
 
     getName(): string { return "NoDrag"; }
     getDescription(): string { return "Adds a setting to disable reordering of channels/categories."; }
-    getVersion(): string { return "0.1.3"; }
+    getVersion(): string { return "0.1.4"; }
     getAuthor(): string { return "Emma"; }
 
     manageChannelsPermission = BdApi.findModuleByProps("Permissions").Permissions.MANAGE_CHANNELS;

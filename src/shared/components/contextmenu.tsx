@@ -190,7 +190,7 @@ export function findContextMenuItem(obj: React.ReactElement[], id: string): Reac
     for (const child of obj) {
         if (child?.props?.id === id) {
             return child;
-        } else if (child) {
+        } else if (child?.props) {
             const children = Array.isArray(child.props.children)
                 ? child.props.children : [child.props.children];
             const recur = findContextMenuItem(children, id);

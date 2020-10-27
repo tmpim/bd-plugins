@@ -1,3 +1,9 @@
+# 0.1.4
+
+## fixed
+
+Fixed crash when using the contextmenu on the space between guild categories.
+
 # 0.1.3
 
 ## fixed
