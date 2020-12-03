@@ -40,15 +40,11 @@ export function processComponentType(
             inst.type = class ModuleProcessor extends otype {
                 render() {
                     const rvalue = super.render();
-                    // console.log("repurposing", rvalue);
-                    // console.log("tfind", );
                     cb(inst.props, rvalue);
 
                     return rvalue;
                 }
             };
-
-            // props.children.props.children[""0""].props.children[""0""].props.children
 
             for (const extra in otype) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
