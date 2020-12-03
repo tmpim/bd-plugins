@@ -19,7 +19,7 @@ export default mixinChangeLog(mixinUpdater(class ThemeIpc implements BdPlugin {
 
     getName(): string { return "ThemeIPC"; }
     getDescription(): string { return "Hosts a UNIX IPC socket and listens for theme change commands."; }
-    getVersion(): string { return "0.0.1"; }
+    getVersion(): string { return "0.0.2"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {

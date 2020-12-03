@@ -15,7 +15,7 @@ export default mixinChangeLog(mixinUpdater(class BadgeClasses implements BdPlugi
 
     getName(): string { return "BadgeClass"; }
     getDescription(): string { return "Adds CSS classes to the channel badges when you have pings."; }
-    getVersion(): string { return "0.0.1"; }
+    getVersion(): string { return "0.0.2"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {

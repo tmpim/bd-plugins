@@ -39,7 +39,7 @@ export default mixinChangeLog(mixinUpdater(class AddQuote implements BdPlugin {
 
     getName(): string { return "AddQuote"; }
     getDescription(): string { return "Adds an 'Add Quote' button to message action bar."; }
-    getVersion(): string { return "0.0.1"; }
+    getVersion(): string { return "0.0.2"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {

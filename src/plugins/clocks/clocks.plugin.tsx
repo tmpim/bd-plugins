@@ -37,7 +37,7 @@ export default mixinChangeLog(mixinUpdater(class Clocks extends PatchManager imp
 
     getName(): string { return "Clocks"; }
     getDescription(): string { return "Adds local time data to tmpim members' profiles."; }
-    getVersion(): string { return "0.0.1"; }
+    getVersion(): string { return "0.0.2"; }
     getAuthor(): string { return "Emma"; }
 
     start() {

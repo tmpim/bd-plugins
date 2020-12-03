@@ -29,14 +29,23 @@ export function mixinUpdater<P extends Constructor<BdPlugin>>(plugin: P,
         private __specializer = pluginNameToFilename(this.getName());
         private __upbanner?: HTMLElement;
 
+        private checkInterval: NodeJS.Timeout;
+
         start() {
             addCommonCSS(updaterCSSID, styles);
 
             this.__checkForUpdates();
+            // Check again every couple hours
+            this.checkInterval = setInterval(
+                () => this.__checkForUpdates(),
+                2 * 60 * 60 * 1000
+            );
+
             super.start();
         }
 
         stop() {
+            clearInterval(this.checkInterval);
             this.__removeUpdateBanner();
             super.stop();
         }

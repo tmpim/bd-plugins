@@ -16,7 +16,7 @@ export default mixinUpdater(mixinChangeLog(class SelfPresence extends PatchManag
 
     getName(): string { return "SelfPresence"; }
     getDescription(): string { return "Adds a button to channel headers to see your rich presence data."; }
-    getVersion(): string { return "0.0.2"; }
+    getVersion(): string { return "0.0.3"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {
