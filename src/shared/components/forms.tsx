@@ -78,10 +78,24 @@ export const FormText = formComponents.FormText;
 type: "SELECT" | "SLIDER" | "SWITCH" | "TEXTINPUT"
 */
 
+enum ButtonLook { BLANK, FILLED, GHOST, INVERTED, LINK, OUTLINED }
+enum ButtonColor { BLACK, BRAND, GREEN, GREY, LINK,
+    PRIMARY, RED, TRANSPARENT, WHITE, YELLOW }
+
 const NativeSelect = BdApi.findModuleByDisplayName("SelectTempWrapper");
 const NativeText = BdApi.findModuleByDisplayName("TextInput");
+
+export const NativeButton: FC<{
+    onClick: () => void,
+    look: ButtonLook
+    color?: ButtonColor
+    disabled?: boolean
+}> & {
+    Looks: typeof ButtonLook
+    Colors: typeof ButtonColor
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const NativeButton: any = BdApi.findModuleByProps("Colors", "Hovers", "Looks");
+} = BdApi.findModuleByProps("Colors", "Hovers", "Looks") as any;
+
 const NativeSlider = BdApi.findModuleByDisplayName("Slider");
 const NativeSwitch = BdApi.findModuleByDisplayName("Switch");
 
@@ -210,7 +224,7 @@ export const PanelFormItem: React.FC<{
     case "Switch":
         control =
             (<Flex direction={Flex.Direction.HORIZONTAL_REVERSE}>
-                <NativeSwitch {...props.childProps} {...objectWithoutProperties(props, ["type"])}/>
+                <NativeSwitch checked={props.value} {...props.childProps} {...objectWithoutProperties(props, ["type", "value"])}/>
             </Flex>);
         break;
     case "Slider":

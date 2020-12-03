@@ -1,3 +1,9 @@
+# 0.0.3
+
+## fixed
+
+Fixed switch in settings to use discord's new component
+
 # 0.0.2
 
 ## improved

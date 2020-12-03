@@ -1,3 +1,9 @@
+export function findDefaultModuleByDisplayName(displayName: string): {
+    default: FC<unknown>
+} {
+    return BdApi.findModule(x => x.default && x.default.displayName == displayName);
+}
+
 export const GuildStore    = /*#__PURE__*/ BdApi.findModuleByProps("getGuild", "getGuilds");
 export const IconUtils     = /*#__PURE__*/ BdApi.findModuleByProps("getGuildIconURL", "getGuildBannerURL");
 export const ModalStack    = /*#__PURE__*/ BdApi.findModuleByProps("push", "update", "pop", "popWithKey");

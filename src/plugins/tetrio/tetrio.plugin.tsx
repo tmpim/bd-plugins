@@ -45,7 +45,7 @@ export default mixinChangeLog(mixinUpdater(class Tetrio implements BdPlugin {
 
     getName(): string { return "Tetrio"; }
     getDescription(): string { return "Pops up a message when tmpim spyglass reports an active tetr.io lobby."; }
-    getVersion(): string { return "0.0.2"; }
+    getVersion(): string { return "0.0.3"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {
