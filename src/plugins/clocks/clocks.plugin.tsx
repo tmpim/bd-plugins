@@ -11,8 +11,16 @@ import { createSettingsPanel } from "@shared/settings/settingspanel";
 import { Margins } from "@shared/styles/discordclasses";
 import { clazz } from "@shared/styles/utils";
 import { BdPlugin } from "@type/BdPlugin";
-import { Whomst } from "./whomst";
 const { useState } = React;
+
+interface Whomst {
+    [k: string]: {
+        name: string;
+        timezone?: string;
+        discord?: string[];
+        [k: string]: unknown;
+    };
+}
 
 const WHOMST_API = "https://auth.tmpim.pw/whomst";
 
