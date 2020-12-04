@@ -7,7 +7,6 @@ import { Tooltip } from "@shared/components/discordexports";
 
 export default mixinChangeLog(mixinUpdater(class AddQuote implements BdPlugin {
     cancelRenderPatch: CancelPatch;
-    cancelComparePatch: CancelPatch;
     stopped = true;
 
     TextBoxModule: {default: React.ComponentClass};
@@ -39,7 +38,7 @@ export default mixinChangeLog(mixinUpdater(class AddQuote implements BdPlugin {
 
     getName(): string { return "AddQuote"; }
     getDescription(): string { return "Adds an 'Add Quote' button to message action bar."; }
-    getVersion(): string { return "0.0.2"; }
+    getVersion(): string { return "0.0.3"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {
@@ -70,7 +69,6 @@ export default mixinChangeLog(mixinUpdater(class AddQuote implements BdPlugin {
 
         this.TextBoxModule.default = this.nativeTextBox;
         this.cancelRenderPatch();
-        this.cancelComparePatch();
         this.cleanupCSS();
     }
 
