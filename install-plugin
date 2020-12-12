@@ -9,7 +9,7 @@ orange=`tput setaf 3`
 bold=`tput bold`
 reset=`tput sgr0`
 
-# Dependancy check
+# Dependency check
 if ! command -v jq &> /dev/null
 then
     echo "${bold}${red}ERROR: I need jq to work properly!"
