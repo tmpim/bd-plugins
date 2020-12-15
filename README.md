@@ -1,5 +1,5 @@
 # BetterDiscord Plugins
-A collection of BetterDiscord plugins developed by Tmpim.
+A collection of [BetterDiscord](https://github.com/rauenzi/BetterDiscordApp) plugins developed by Tmpim.
 
 ## Usage
 Install plugins with the `install-plugin` script.
