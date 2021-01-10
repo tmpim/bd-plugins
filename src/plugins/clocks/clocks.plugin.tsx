@@ -25,7 +25,7 @@ interface Whomst {
 const WHOMST_API = "https://auth.tmpim.pw/whomst";
 
 export default mixinChangeLog(mixinUpdater(class Clocks extends PatchManager implements BdPlugin {
-    private UserPopout = findDefaultModuleByDisplayName("UserPopout");
+    private UserPopout = findDefaultModuleByDisplayName("ConnectedUserPopout");
 
     private whomst?: Whomst;
     private discordLookup?: Record<string, string>; // Discord ID -> Whomst ID
@@ -37,7 +37,7 @@ export default mixinChangeLog(mixinUpdater(class Clocks extends PatchManager imp
 
     getName(): string { return "Clocks"; }
     getDescription(): string { return "Adds local time data to tmpim members' profiles."; }
-    getVersion(): string { return "0.0.2"; }
+    getVersion(): string { return "0.0.3"; }
     getAuthor(): string { return "Emma"; }
 
     start() {

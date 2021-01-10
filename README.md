@@ -23,6 +23,10 @@ temporarily re-enable channel reordering. The delay before
 the ability is re-enabled is configurable in settings.
 
 ---
+### Clocks
+> Adds the local time for all members that are in the Tmpim Whomst (and have their timezone in Whomst).
+
+---
 ### SelfPresence
 > Adds a button to channel headers to see your rich presence data.
 
