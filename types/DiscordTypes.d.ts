@@ -3,6 +3,7 @@ export namespace Discord {
         id: string;
         type: number;
         channel_id: string;
+        guild_id: string;
         author: Author;
         colorString: string;
         nick?: null;

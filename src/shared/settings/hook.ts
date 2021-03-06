@@ -5,7 +5,7 @@ import { BdPlugin } from "@type/BdPlugin";
 export function useSettings<T extends Record<string, unknown>>(plugin: BdPlugin & {settings: T}): T {
     const hooks: {[k in keyof T]?: [T[k], React.Dispatch<React.SetStateAction<T[k]>>]} = {};
     for (const setting in plugin.settings) {
-        hooks[setting] = React.useState(plugin.settings[setting]);
+        hooks[setting] = React.useState(() => plugin.settings[setting]);
     }
 
     return new TypedProxy<T, T>(plugin.settings, {
