@@ -45,7 +45,7 @@ export default mixinUpdater(mixinChangeLog(class VoiceChat extends PatchManager 
 
     getName(): string { return "VoiceChat"; }
     getDescription(): string { return "Plays a sound when someone sends a message in #voice-chat channels while you are in VC."; }
-    getVersion(): string { return "0.0.1"; }
+    getVersion(): string { return "0.0.2"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {
@@ -145,10 +145,12 @@ export default mixinUpdater(mixinChangeLog(class VoiceChat extends PatchManager 
             const guildId = voiceChannel.guild_id;
             if (message.guild_id === guildId) {
                 const textChannel = ChannelStore.getChannel(message.channel_id);
-                if (/voice|text|no.*mic/i.test(textChannel.name)
-                || voiceChannel.name.includes(textChannel.name)
-                || textChannel.name.includes(voiceChannel.name)) {
-                    this.playNotification();
+                if (voiceChannel.parent_id === textChannel.parent_id) {
+                    if (/voice|text|no.*mic/i.test(textChannel.name)
+                    || voiceChannel.name.includes(textChannel.name)
+                    || textChannel.name.includes(voiceChannel.name)) {
+                        this.playNotification();
+                    }
                 }
             }
         }
