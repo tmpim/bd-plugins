@@ -15,5 +15,5 @@ export const LayerModule   = /*#__PURE__*/ BdApi.findModule(x => x && x.AppLayer
 export const RoutingModule = /*#__PURE__*/ BdApi.findModuleByProps("transitionTo", "getFingerprintLocation");
 export const RoutesModule  = /*#__PURE__*/ BdApi.findModuleByProps("Routes").Routes;
 export const MessageStore  = /*#__PURE__*/ BdApi.findModuleByProps("getMessage", "getMessages");
-export const VoiceState    = /*#__PURE__*/ BdApi.findModuleByProps("getVoiceStateForUser", "isCurrentClientInVoiceChannel")
+export const VoiceState    = /*#__PURE__*/ BdApi.findModuleByProps("getVoiceStateForUser", "isCurrentClientInVoiceChannel");
 export const ChannelStore  = /*#__PURE__*/ BdApi.findModuleByProps("getChannel", "getDMFromUserId");
