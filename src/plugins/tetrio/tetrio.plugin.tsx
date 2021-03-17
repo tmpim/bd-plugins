@@ -1,4 +1,3 @@
-import dataurl from "dataurl";
 import fs from "fs";
 import path from "path";
 import { BdPlugin } from "@type/BdPlugin";
@@ -14,6 +13,7 @@ import { useSettings } from "@shared/settings/hook";
 import { useImageAsset } from "@shared/util/hooks";
 import { mixinUpdater } from "@shared/mixins/updater";
 import { mixinChangeLog } from "@shared/mixins/changelog";
+import { convertToDataURL } from "@shared/util/dataurl";
 const { useState, useEffect } = React;
 
 export default mixinChangeLog(mixinUpdater(class Tetrio implements BdPlugin {
@@ -45,7 +45,7 @@ export default mixinChangeLog(mixinUpdater(class Tetrio implements BdPlugin {
 
     getName(): string { return "Tetrio"; }
     getDescription(): string { return "Pops up a message when tmpim spyglass reports an active tetr.io lobby."; }
-    getVersion(): string { return "0.0.4"; }
+    getVersion(): string { return "0.0.5"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {
@@ -169,8 +169,8 @@ export default mixinChangeLog(mixinUpdater(class Tetrio implements BdPlugin {
             return; // Don't try to load it since it doesn't exist
         }
 
-        this.notificationSound = dataurl.convert({
-            data: fs.readFileSync(spath), mimetype: "audio/" + path.extname(spath).replace(".", "")
+        this.notificationSound = convertToDataURL({
+            data: fs.readFileSync(spath), mimeType: "audio/" + path.extname(spath).replace(".", "")
         });
     }
 

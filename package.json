@@ -26,9 +26,6 @@
     "typescript": "^3.9.7",
     "webpack": "^5.0.0-rc.0"
   },
-  "dependencies": {
-    "dataurl": "^0.1.0"
-  },
   "optionalDependencies": {
     "webpack-cli": "^3.3.12"
   }
