@@ -1,3 +1,9 @@
+# 0.0.3
+
+## fixed
+
+Fixed for new Discord/BetterDiscord version.
+
 # 0.0.2
 
 ## added

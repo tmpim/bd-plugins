@@ -9,10 +9,10 @@ import { Discord } from "@type/DiscordTypes";
 import React from "@shared/base/discordreact";
 import path from "path";
 import fs from "fs";
-import dataurl from "dataurl";
 import { useSettings } from "@shared/settings/hook";
 import { PanelFormItem } from "@shared/components/forms";
 import { createSettingsPanel } from "@shared/settings/settingspanel";
+import { convertToDataURL } from "@shared/util/dataurl";
 
 const MStore = MessageStore as unknown as {
     _dispatcher : { _subscriptions: {
@@ -45,7 +45,7 @@ export default mixinUpdater(mixinChangeLog(class VoiceChat extends PatchManager 
 
     getName(): string { return "VoiceChat"; }
     getDescription(): string { return "Plays a sound when someone sends a message in #voice-chat channels while you are in VC."; }
-    getVersion(): string { return "0.0.2"; }
+    getVersion(): string { return "0.0.3"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {
@@ -167,8 +167,8 @@ export default mixinUpdater(mixinChangeLog(class VoiceChat extends PatchManager 
             return; // Don't try to load it since it doesn't exist
         }
 
-        this.notificationSound = dataurl.convert({
-            data: fs.readFileSync(spath), mimetype: "audio/" + path.extname(spath).replace(".", "")
+        this.notificationSound = convertToDataURL({
+            data: fs.readFileSync(spath), mimeType: "audio/" + path.extname(spath).replace(".", "")
         });
     }
 
