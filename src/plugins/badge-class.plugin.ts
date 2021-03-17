@@ -2,11 +2,13 @@ import { CancelPatch } from "@type/BdApi";
 import { BdPlugin } from "@type/BdPlugin";
 import { mixinUpdater } from "@shared/mixins/updater";
 import { mixinChangeLog } from "@shared/mixins/changelog";
+import PatchManager from "@shared/patch/PatchManager";
+import { findDefaultModuleByDisplayName } from "@shared/base/modules";
 
-export default mixinChangeLog(mixinUpdater(class BadgeClasses implements BdPlugin {
+export default mixinChangeLog(mixinUpdater(class BadgeClasses extends PatchManager implements BdPlugin {
     static cssID = "MentionDotCSS";
 
-    ChannelItem: React.ComponentClass;
+    ChannelItem: { default: FC };
     ChannelUtils: {
         getMentionCount(channelId: string): number;
     }
@@ -15,15 +17,26 @@ export default mixinChangeLog(mixinUpdater(class BadgeClasses implements BdPlugi
 
     getName(): string { return "BadgeClass"; }
     getDescription(): string { return "Adds CSS classes to the channel badges when you have pings."; }
-    getVersion(): string { return "0.0.2"; }
+    getVersion(): string { return "0.0.3"; }
     getAuthor(): string { return "Emma"; }
 
     start(): void {
         this.ChannelUtils = BdApi.findModuleByProps("getUnreadCount", "getMentionCount");
-        this.ChannelItem = BdApi.findModuleByDisplayName("ChannelItem");
+        this.ChannelItem = findDefaultModuleByDisplayName("ChannelItem");
 
         BdApi.injectCSS(BadgeClasses.cssID, `
-            .da-containerDefault .da-wrapper .da-unread.da-unread-mention {
+            .da-pill .da-item {
+                margin-left: 0;
+                min-height: 16px;
+            }
+
+            .da-containerDefault .da-wrapper .da-unread {
+                width: 8px;
+                height: 16px;
+                margin-top: -8px;
+            }
+
+            .da-containerDefault .da-wrapper.da-unread-mention .da-unread {
                 background-color: #f04747;
             }
         `);
@@ -34,15 +47,19 @@ export default mixinChangeLog(mixinUpdater(class BadgeClasses implements BdPlugi
     stop(): void {
         BdApi.clearCSS(BadgeClasses.cssID);
         this.cancelRenderPatch();
+
+        super.stop();
     }
 
     patchRender() {
-        this.cancelRenderPatch = BdApi.monkeyPatch(this.ChannelItem.prototype,
-            "renderUnread", { after: (data) => {
+        this.cancelRenderPatch = BdApi.monkeyPatch(this.ChannelItem,
+            "default", { after: (data) => {
                 if (data.returnValue) {
-                    const channel = (data.thisObject as {props: {channel: {id: string}}}).props.channel;
+                    console.log(data.methodArguments);
+                    const props = data.methodArguments[0];
+                    const channel = props.channel;
                     if (this.ChannelUtils.getMentionCount(channel.id) > 0) {
-                        data.returnValue.props.className += " " + "da-unread-mention";
+                        data.returnValue.props.children.props.className += " " + "da-unread-mention";
                     }
                 }
             } });
