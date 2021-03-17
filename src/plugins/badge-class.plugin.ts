@@ -55,7 +55,6 @@ export default mixinChangeLog(mixinUpdater(class BadgeClasses extends PatchManag
         this.cancelRenderPatch = BdApi.monkeyPatch(this.ChannelItem,
             "default", { after: (data) => {
                 if (data.returnValue) {
-                    console.log(data.methodArguments);
                     const props = data.methodArguments[0];
                     const channel = props.channel;
                     if (this.ChannelUtils.getMentionCount(channel.id) > 0) {
