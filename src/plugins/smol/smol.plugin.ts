@@ -70,7 +70,6 @@ export default mixinChangeLog(mixinUpdater(class Smol extends PatchManager imple
     handleKeyDown(event: React.KeyboardEvent, editor: Editor) {
         const { value } = editor;
         const { selection } = value;
-        console.log("ON ", value.startText.text);
         if (selection.isExpanded) return;
 
         const { startBlock } = value;
@@ -85,8 +84,6 @@ export default mixinChangeLog(mixinUpdater(class Smol extends PatchManager imple
         let startOffset = start.offset;
         let totalRemoved = 0;
         const offsets = this.getOffsets(matches, startOffset);
-
-        console.log(offsets);
 
         offsets.forEach(offset => {
             editor
