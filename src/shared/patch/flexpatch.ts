@@ -1,6 +1,7 @@
 import uuidv4 from "@shared/util/uuid";
 
 export interface PatchCallData<F extends GenericFunction> {
+    thisValue: unknown,
     arguments: ArgumentTypes<F>,
     returnValue: ReturnType<F>,
     originalMethod: F
@@ -102,11 +103,11 @@ function injectPatch<O extends Record<string, GenericFunction>, K extends keyof 
         const { original: originalMethod } = state;
 
         if (state.before) {
-            for (const fn of state.before)  returnValue = fn.patch({ originalMethod, arguments: args, returnValue }) ?? returnValue;
-            for (const fn of state.instead) returnValue = fn.patch({ originalMethod, arguments: args, returnValue }) ?? returnValue;
-            if  (state.instead.length == 0) returnValue = originalMethod(...args) ?? returnValue;
+            for (const fn of state.before)  returnValue = fn.patch({ originalMethod, thisValue: this, arguments: args, returnValue }) ?? returnValue;
+            for (const fn of state.instead) returnValue = fn.patch({ originalMethod, thisValue: this, arguments: args, returnValue }) ?? returnValue;
+            if  (state.instead.length == 0) returnValue = originalMethod.call(this, ...args) ?? returnValue;
 
-            for (const fn of state.after)   returnValue = fn.patch({ originalMethod, arguments: args, returnValue }) ?? returnValue;
+            for (const fn of state.after)   returnValue = fn.patch({ originalMethod, thisValue: this, arguments: args, returnValue }) ?? returnValue;
 
             return returnValue;
         } else {
@@ -128,6 +129,9 @@ function injectPatch<O extends Record<string, GenericFunction>, K extends keyof 
             target[methodname][propName] = ijOriginal[propName];
         }
     }
+
+    // Copy prototype
+    target[methodname].prototype = ijOriginal.prototype;
 
     return target[methodname];
 }
