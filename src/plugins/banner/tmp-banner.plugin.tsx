@@ -7,7 +7,7 @@ import { BdPlugin } from "@type/BdPlugin";
 
 export default mixinUpdater(mixinChangeLog(class TmpBanner extends PatchManager implements BdPlugin {
     guildId = "591488795040546818" // Tmpim Guild id
-    bannerURL = "https://media.discordapp.net/attachments/743809200664346654/819683395227091004/tmpim_yakuza.jpg"
+    bannerURL = "https://its-em.ma/and-her-unsuitable-chance.png"
 
     getName(): string { return "TmpBanner"; }
     getDescription(): string { return "Puts a server banner in the Tmpim guild"; }
